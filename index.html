@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <base target="_top">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+      body { 
+        background-color: #f8f9fa; 
+        padding: 20px 10px; 
+        font-family: 'Prompt', sans-serif; 
+      }
+      
+      .main-card { 
+        max-width: 800px; 
+        width: 100%; 
+        margin: auto; 
+        background: white; 
+        padding: 20px; 
+        border-radius: 15px; 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+      }
+
+      @media (min-width: 768px) {
+        body { padding: 40px 20px; }
+        .main-card { padding: 30px; }
+      }
+
+      .form-label { font-weight: 600; color: #495057; font-size: 0.85rem; }
+      .hidden { display: none; }
+      .loading { color: #1a237e; font-style: italic; }
+
+      .section-header {
+        background-color: #e8eaf6;
+        padding: 8px 12px;
+        border-radius: 5px;
+        margin: 25px 0 10px 0;
+        font-weight: bold;
+        color: #1a237e;
+        border-left: 5px solid #1a237e;
+        font-size: 1rem;
+      }
+
+      .banner-container {
+        width: 100%;
+        overflow: hidden;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+
+      .banner-img {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: cover;
+      }
+
+      .badge-custom {
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: bold;
+        color: white;
+        display: inline-flex;
+        align-items: center;
+        min-width: 120px;
+        font-size: 0.9rem;
+      }
+
+      .status-registered { background-color: #059669; color: #ffffff; }
+      .status-cancel { background-color: #dc3545; }
+
+      .dot-green-pulse {
+        height: 10px; width: 10px;
+        background-color: #2ecc71;
+        border-radius: 50%;
+        margin-left: 10px;
+        box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+        animation: pulse-green 2s infinite;
+      }
+
+      @keyframes pulse-green {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+      }
+
+      .dot-red {
+        height: 10px; width: 10px;
+        background-color: #ffc107;
+        border-radius: 50%;
+        margin-left: 10px;
+        box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+        animation: pulse-red 2s infinite;
+      }
+
+      @keyframes pulse-red {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 193, 7, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
+      }
+
+      .btn { padding: 10px 20px; font-weight: 600; border-radius: 8px; }
+
+      @media (max-width: 576px) {
+        .col-md-8, .col-md-4, .col-md-6, .col-md-5, .col-md-7, .col-md-12 {
+          width: 100% !important; 
+        }
+        .main-card { border-radius: 0; box-shadow: none; } 
+      }
+
+      .btn-save-custom {
+        background-color: #1a237e !important;
+        border-color: #1a237e !important;
+        color: white !important;
+        transition: 0.3s;
+      }
+
+      .btn-save-custom:hover { background-color: #0d1440 !important; opacity: 0.9; }
+
+      .dob-header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 5px;
+      }
+
+      .section-header .btn-outline-primary { border-color: #1a237e; color: #1a237e; transition: all 0.3s ease; }
+      .section-header .btn-outline-primary:hover { background-color: #1a237e !important; color: white !important; transform: translateY(-1px); }
+
+      .site-footer {
+        padding: 20px;
+        text-align: center;
+        font-size: 14px;
+        color: #666; 
+        font-family: 'Prompt', sans-serif;
+        border-top: 1px solid #eee;
+        margin-top: 40px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main-card">
+      <div class="banner-container">
+        <img src="https://img2.pic.in.th/Gemini_Generated_Image_ppt91xppt91xppt9.png" alt="Banner" class="banner-img">
+      </div>
+      
+      <div id="loginSection" class="container-fluid px-0">
+        <div class="mb-3">
+          <label class="form-label">Your Email (อีเมลของคุณ)</label>
+          <input type="email" id="email" class="form-control form-control-lg" placeholder="example@mail.com">
+        </div>
+        <button onclick="login()" id="loginBtn" class="btn btn-primary w-100">Confirm</button>
+      </div>
+
+      <div id="selectSection" class="hidden container-fluid px-0">
+        <div class="mb-3">
+          <label class="form-label">Choose Team ID</label>
+          <select id="teamDropdown" class="form-select form-select-lg" onchange="loadTeamData()">
+            <option value="">-- Choose your Team ID --</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="editSection" class="hidden">
+        <hr>
+        <div id="formFields" class="row g-2 g-md-3"></div>
+        <div class="mt-4">
+          <button onclick="saveChanges()" id="saveBtn" class="btn btn-save-custom w-100">Save</button>
+        </div>
+      </div>
+      
+      <div id="status" class="mt-3 text-center loading hidden">
+        <div class="spinner-border spinner-border-sm text-primary" role="status"></div> Processing...
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; padding: 15px 15px 5px 0;">
+        <p style="margin: 0; font-size: 0.8rem; color: #888; font-style: italic;">
+          *Update 2026-03-04
+        </p>
+      </div>
+      <footer class="site-footer">
+        Organize by Gammaco (Thailand) Co.,Ltd.
+      </footer>
+    </div>
+
+    <script>
+      // 🚨 สำคัญ: นำ URL ของ Web App ที่ก๊อปปี้จากขั้นตอนการ Deploy ของ Google Apps Script มาวางแทนข้อความด้านล่างนี้
+      const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJdI-Je0SZE0IcKE7S-95hquFmjdXOi5kahyhFODKOsJ0mSGBHwFnqc7QowDptpHq3/exec";
+
+      let currentTeamId = "";
+      let fieldMapping = [];
+
+      function showStatus(show) {
+        const statusEl = document.getElementById('status');
+        statusEl.classList.toggle('hidden', !show);
+      }
+
+      function login() {
+        const email = document.getElementById('email').value;
+        if(!email) return alert("กรุณากรอกอีเมล");
+        showStatus(true);
+
+        fetch(`${WEB_APP_URL}?action=getTeams&email=${encodeURIComponent(email)}`)
+          .then(res => res.json())
+          .then(res => {
+            showStatus(false);
+            if(res.error) return alert(res.error);
+            
+            const select = document.getElementById('teamDropdown');
+            select.innerHTML = '<option value="">-- เลือก Team ID --</option>';
+            res.teams.forEach(id => { select.innerHTML += `<option value="${id}">${id}</option>`; });
+            
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('selectSection').classList.remove('hidden');
+          })
+          .catch(err => { showStatus(false); alert("เกิดข้อผิดพลาด: " + err.message); });
+      }
+
+      function loadTeamData() {
+        currentTeamId = document.getElementById('teamDropdown').value;
+        const container = document.getElementById('formFields');
+        const editSection = document.getElementById('editSection');
+        if (!currentTeamId) { editSection.classList.add('hidden'); container.innerHTML = ""; return; }
+
+        container.innerHTML = '<div class="text-center w-100 p-5"><div class="spinner-border text-primary"></div><br>Processing...</div>';
+        editSection.classList.remove('hidden');
+
+        fetch(`${WEB_APP_URL}?action=getTeamData&teamId=${encodeURIComponent(currentTeamId)}`)
+          .then(res => res.json())
+          .then(fields => {
+            if (!fields || fields.length === 0) {
+              container.innerHTML = '<div class="alert alert-danger w-100">❌ ไม่พบข้อมูลสำหรับทีมนี้</div>';
+              return;
+            }
+
+            fieldMapping = fields;
+            const fieldMap = {};
+            fields.forEach((f, index) => { fieldMap[f.label.trim()] = { ...f, originalIndex: index }; });
+
+            const categoryRegion = fieldMap["Category / Region"] ? fieldMap["Category / Region"].value.trim() : "";
+            const now = new Date();
+            let isTimeLocked = false;
+            let lockMessage = "";
+
+            const southDeadline = new Date(2026, 5, 19, 12, 0, 0); 
+            if (categoryRegion.includes("ภาคใต้") && now >= southDeadline) {
+                isTimeLocked = true;
+                lockMessage = "ระบบปิดรับการแก้ไขสำหรับภาคใต้เมื่อ 19 มิ.ย. 2569 เวลา 12.00 น.";
+            }
+
+            const centralDeadline = new Date(2026, 2, 15, 18, 0, 0);
+            if (categoryRegion.includes("ภาคกลาง") && now >= centralDeadline) {
+                isTimeLocked = true;
+                lockMessage = "ระบบปิดรับการแก้ไขสำหรับภาคกลางเมื่อ 15 มี.ค. 2569 เวลา 18.00 น.";
+            }
+
+            const statusField = fieldMap["Status"];
+            const statusValue = statusField ? statusField.value.trim() : "";
+            const isLocked = (statusValue === "Cancel" || isTimeLocked);
+
+            const createInput = (label, isReadonly = true, colClass = "col-md-6", iconHtml = "") => {
+                const f = fieldMap[label];
+                if (!f) return ""; 
+                const finalReadonly = isLocked ? true : isReadonly;
+                const bgClass = finalReadonly ? 'bg-light text-muted' : '';
+                return `
+                  <div class="${colClass} col-12 mb-2">
+                    <label class="form-label">${iconHtml}${f.label}</label>
+                    <input type="text" class="form-control edit-input ${bgClass}" 
+                      data-index="${f.originalIndex}" value="${f.value}" ${finalReadonly ? 'readonly' : ''}>
+                  </div>`;
+            };
+
+            let statusClass = (statusValue === "Cancel") ? "status-cancel" : "status-registered";
+            let dotClass = (statusValue === "Cancel") ? "dot-red" : "dot-green-pulse";
+
+            let section1Html = `
+              <div class="col-12">
+                <div class="section-header d-flex justify-content-between align-items-center">
+                  <span>Team Info</span>
+                  <div class="badge-custom ${statusClass}" 
+                       style="font-size: 0.75rem; padding: 2px 10px; border-radius: 5px; font-weight: 600; display: flex; align-items: center; gap: 5px; height: fit-content; border: 1px solid currentColor;">
+                    ${statusValue} <span class="${dotClass}" style="width: 8px; height: 8px;"></span>
+                  </div>
+                </div>
+              </div>`;
+
+            if (isLocked) {
+                section1Html += `
+                  <div class="col-12 mb-2">
+                    <div class="alert alert-warning" style="font-size: 0.85rem; padding: 10px;">
+                      <strong>⚠️ ไม่สามารถแก้ไขข้อมูลได้:</strong> ${isTimeLocked ? lockMessage : "เนื่องจากทีมถูกยกเลิก"}
+                      <br><small class="text-muted">สอบถามเพิ่มเติมโทร 02 459 4731-8 ต่อ 232</small>
+                    </div>
+                  </div>`;
+            }
+
+            section1Html += `
+              <div class="row w-100 m-0">
+                ${createInput("Event Name", true, "col-md-12", '<i class="fas fa-calendar-alt me-2"></i>')}
+                ${createInput("Category / Region", true, "col-md-5", '<i class="fas fa-globe-asia me-2"></i>')}
+                ${createInput("Province", true, "col-md-7", '<i class="fas fa-map-marker-alt me-2"></i>')}
+                ${createInput("Age Group", true, "col-md-6", '<i class="fas fa-users me-2"></i>')}
+                ${createInput("Controller", true, "col-md-6", '<i class="fas fa-robot me-2"></i>')}
+                ${createInput("Team Name", false, "col-md-5", '<i class="fas fa-id-badge me-2"></i>')}
+                ${createInput("Institution", false, "col-md-7", '<i class="fas fa-school me-2"></i>')}
+              </div>`;
+
+            let section2Html = `<div class="col-12"><div class="section-header">Coach Info</div></div><div class="row w-100 m-0">`;
+            section2Html += createInput("Coach Name", false, "col-md-6", '<i class="fas fa-user-tie me-2"></i>');
+            section2Html += createInput("Email", false, "col-md-6", '<i class="fas fa-envelope me-2"></i>');
+            section2Html += createInput("Tel", false, "col-md-6", '<i class="fas fa-phone me-2"></i>');
+            section2Html += createInput("Line ID", false, "col-md-6", '<i class="fab fa-line me-2"></i>');
+            section2Html += `</div>`;
+
+            let section3Html = `
+              <div class="col-12">
+                <div class="section-header d-flex justify-content-between align-items-center">
+                  <span>Competitors</span>
+                  <a href="${WEB_APP_URL}?page=table" 
+                     target="_blank" class="btn btn-sm btn-light">
+                     <i class="bi bi-calendar3"></i> Check BE - AD.
+                  </a>
+                </div>
+              </div><div class="row w-100 m-0">`;
+
+            fields.forEach((field, index) => {
+                const labelTrim = field.label.trim();
+                if (labelTrim.includes("Member") || labelTrim.includes("Date of birth")) {
+                    if (labelTrim.includes("Date of birth")) {
+                        section3Html += `
+                          <div class="col-md-6 col-12 mb-2">
+                            <div class="dob-header-container d-flex justify-content-between">
+                              <label class="form-label mb-0"><i class="fas fa-birthday-cake me-2"></i>${field.label}</label>
+                              ${!isLocked ? `
+                              <div class="form-check d-flex align-items-center">
+                                <input class="form-check-input me-1" type="checkbox" id="chk_${index}" onchange="toggleDate(${index}, '${field.value}')">
+                                <label class="form-check-label" for="chk_${index}" style="font-size: 0.75rem; cursor:pointer;">Edit</label>
+                              </div>` : ''}
+                            </div>
+                            <input type="text" class="form-control edit-input bg-light text-muted" id="input_${index}" data-index="${index}" value="${field.value}" readonly>
+                          </div>`;
+                    } else {
+                        section3Html += createInput(labelTrim, false, "col-md-6", '<i class="fas fa-user me-2"></i>');
+                    }
+                }
+            });
+            section3Html += `</div>`;
+
+            container.innerHTML = section1Html + section2Html + section3Html;
+            document.getElementById('saveBtn').classList.toggle('hidden', isLocked);
+
+          })
+          .catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
+      }
+
+      function toggleDate(index, originalValue) {
+        const input = document.getElementById('input_' + index);
+        const chk = document.getElementById('chk_' + index);
+        
+        if (chk.checked) {
+          const ageGroupField = fieldMapping.find(f => f.label.trim() === "Age Group");
+          const ageGroup = ageGroupField ? ageGroupField.value.trim() : "";
+          
+          let minYearBE, maxYearBE;
+
+          switch(ageGroup) {
+            case "Elementary": minYearBE = 2557; maxYearBE = 2561; break;
+            case "Junior":     minYearBE = 2554; maxYearBE = 2558; break;
+            case "Senior":     minYearBE = 2550; maxYearBE = 2555; break;
+            case "Robosports": minYearBE = 2550; maxYearBE = 2558; break;
+            case "Future Engineers": minYearBE = 2547; maxYearBE = 2555; break;
+            default:           minYearBE = 2540; maxYearBE = 2570; 
+          }
+
+          const minDate = (minYearBE - 543) + "-01-01";
+          const maxDate = (maxYearBE - 543) + "-12-31";
+
+          input.type = "date";
+          input.min = minDate;
+          input.max = maxDate;
+          input.readOnly = false;
+          input.classList.remove('bg-light', 'text-muted');
+
+          let d = new Date(originalValue);
+          if (!isNaN(d.getTime())) {
+            input.value = d.toISOString().split('T')[0];
+          } else {
+            input.value = (minYearBE - 543) + "-01-01"; 
+          }
+
+        } else {
+          input.type = "text";
+          input.value = originalValue;
+          input.readOnly = true;
+          input.classList.add('bg-light', 'text-muted');
+        }
+      }
+
+      function saveChanges() {
+        const inputs = document.querySelectorAll('.edit-input');
+        const updatedData = [];
+        const ageGroupField = fieldMapping.find(f => f.label.trim() === "Age Group");
+        const ageGroup = ageGroupField ? ageGroupField.value.trim() : "";
+        let errorMessage = "";
+
+        inputs.forEach(input => {
+          if (input.type === "date" && input.value !== "") {
+            const selectedDate = new Date(input.value);
+            const yearAD = selectedDate.getFullYear(); 
+            const yearBE = yearAD + 543; 
+
+            if (ageGroup === "Elementary") { if (yearBE < 2557 || yearBE > 2561) errorMessage = "Age Group: Elementary ต้องเกิดระหว่าง พ.ศ. 2557 - 2561"; } 
+            else if (ageGroup === "Junior") { if (yearBE < 2554 || yearBE > 2558) errorMessage = "Age Group: Junior ต้องเกิดระหว่าง พ.ศ. 2554 - 2558"; } 
+            else if (ageGroup === "Senior") { if (yearBE < 2550 || yearBE > 2555) errorMessage = "Age Group: Senior ต้องเกิดระหว่าง พ.ศ. 2550 - 2555"; } 
+            else if (ageGroup === "Robosports") { if (yearBE < 2550 || yearBE > 2558) errorMessage = "Age Group: Robosports ต้องเกิดระหว่าง พ.ศ. 2550 - 2558"; } 
+            else if (ageGroup === "Future Engineers") { if (yearBE < 2547 || yearBE > 2555) errorMessage = "Age Group: Future Engineers ต้องเกิดระหว่าง พ.ศ. 2547 - 2555"; }
+          }
+        });
+
+        if (errorMessage !== "") {
+          return Swal.fire({ icon: 'error', title: 'ช่วงปีเกิดไม่ถูกต้อง', text: errorMessage });
+        }
+
+        Swal.fire({
+          title: 'ยืนยันการแก้ไข?',
+          text: "บันทึกการเปลี่ยนแปลงใช่หรือไม่?",
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#1a237e',
+          confirmButtonText: 'บันทึก',
+          cancelButtonText: 'ยกเลิก',
+          showLoaderOnConfirm: true,
+          preConfirm: () => {
+            inputs.forEach(input => {
+              const idx = input.getAttribute('data-index');
+              if (idx !== null && fieldMapping[idx]) {
+                updatedData.push({ 
+                  colIndex: fieldMapping[idx].colIndex, 
+                  value: input.value 
+                });
+              }
+            });
+
+            return fetch(WEB_APP_URL, {
+              method: 'POST',
+              body: JSON.stringify({
+                action: "update",
+                teamId: currentTeamId,
+                updatedValues: updatedData
+              })
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (!data.success) throw new Error(data.error);
+              return data;
+            })
+            .catch(error => Swal.showValidationMessage(`Request failed: ${error}`));
+          }
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({ icon: 'success', title: 'สำเร็จ!', text: 'อัปเดตเรียบร้อยแล้ว' })
+            .then(() => {
+               location.reload(); 
+            });
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
