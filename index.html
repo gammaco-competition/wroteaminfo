@@ -248,16 +248,58 @@
             let isTimeLocked = false;
             let lockMessage = "";
 
-            const southDeadline = new Date(2026, 5, 19, 12, 0, 0); 
+            const southDeadline = new Date(2026, 4, 23, 12, 0, 0); 
             if (categoryRegion.includes("ภาคใต้") && now >= southDeadline) {
                 isTimeLocked = true;
-                lockMessage = "ระบบปิดรับการแก้ไขสำหรับภาคใต้เมื่อ 19 มิ.ย. 2569 เวลา 12.00 น.";
+                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคใต้)แล้ว เมื่อวันที่ 23 พ.ค. 2569 เวลา 12.00 น.";
             }
 
-            const centralDeadline = new Date(2026, 2, 15, 18, 0, 0);
+            const centralDeadline = new Date(2026, 5, 20, 12, 0, 0);
             if (categoryRegion.includes("ภาคกลาง") && now >= centralDeadline) {
                 isTimeLocked = true;
-                lockMessage = "ระบบปิดรับการแก้ไขสำหรับภาคกลางเมื่อ 15 มี.ค. 2569 เวลา 18.00 น.";
+                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคกลาง)แล้ว เมื่อวันที่ 20 มิ.ย. 2569 เวลา 12.00 น.";
+            }
+
+            const bangkokDeadline = new Date(2026, 5, 6, 12, 0, 0);
+            if (categoryRegion.includes("ภาคกลาง (กทม.)") && now >= bangkokDeadline) {
+                isTimeLocked = true;
+                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคกลาง (กทม.))แล้ว เมื่อวันที่ 6 มิ.ย. 2569 เวลา 12.00 น.";
+            }
+
+            const northeastDeadline = new Date(2026, 6, 4, 12, 0, 0);
+            if (categoryRegion.includes("ภาคอีสาน") && now >= northeastDeadline) {
+                isTimeLocked = true;
+                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคอีสาน)แล้ว เมื่อวันที่ 4 ก.ค. 2569 เวลา 12.00 น.";
+            }
+
+            const northDeadline = new Date(2026, 6, 18, 12, 0, 0);
+            if (categoryRegion.includes("ภาคเหนือ") && now >= northDeadline) {
+                isTimeLocked = true;
+                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคเหนือ)แล้ว เมื่อวันที่ 18 ก.ค. 2569 เวลา 12.00 น.";
+            }
+
+            const robosportsDeadline = new Date(2026, 7, 1, 12, 0, 0);
+            if (categoryRegion.includes("Robosports") && now >= robosportsDeadline) {
+                isTimeLocked = true;
+                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบสนามพิเศษ (Robosports)แล้ว เมื่อวันที่ 1 ส.ค. 2569 เวลา 12.00 น.";
+            }
+
+            const innovatorsDeadline = new Date(2026, 7, 1, 12, 0, 0);
+            if (categoryRegion.includes("Future Innovatrs") && now >= innovatorsDeadline) {
+                isTimeLocked = true;
+                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบสนามพิเศษ (Future Innoators)แล้ว เมื่อวันที่ 1 ส.ค. 2569 เวลา 12.00 น.";
+            }
+
+            const engineersDeadline = new Date(2026, 7, 1, 12, 0, 0);
+            if (categoryRegion.includes("Future Engineers") && now >= engineersDeadline) {
+                isTimeLocked = true;
+                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบสนามพิเศษ (Future Engineers)แล้ว เมื่อวันที่ 1 ส.ค. 2569 เวลา 12.00 น.";
+            }
+
+            const finalDeadline = new Date(2026, 8, 12, 12, 0, 0);
+            if (categoryRegion.includes("Final") && now >= finalDeadline) {
+                isTimeLocked = true;
+                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบชิงแชมป์ประเทศไทยแล้ว เมื่อวันที่ 12 ก.ย. 2569 เวลา 12.00 น.";
             }
 
             const statusField = fieldMap["Status"];
