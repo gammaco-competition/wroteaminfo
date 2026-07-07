@@ -206,7 +206,6 @@
         if(!email) return alert("กรุณากรอกอีเมล");
         showStatus(true);
 
-        // ยิง API ด้วย Email ตามปกติเหมือนโค้ดเดิมของคุณ
         fetch(`${WEB_APP_URL}?action=getTeams&email=${encodeURIComponent(email)}`)
           .then(res => res.json())
           .then(res => {
@@ -214,7 +213,7 @@
             if(res.error) return alert(res.error);
             
             const select = document.getElementById('teamDropdown');
-            // หากระบบตรวจสอบหลังบ้านแล้วพบว่าเป็น Admin จะเปลี่ยนข้อความแจ้งเตือนให้ทราบ
+            // ตรวจสอบสิทธิ์โหมดแอดมินจากการตอบกลับหลังบ้าน
             const labelText = res.isAdmin ? "-- เลือก Team ID ทั้งหมด (โหมดผู้ดูแลระบบ) --" : "-- เลือก Team ID --";
             
             select.innerHTML = `<option value="">${labelText}</option>`;
@@ -289,9 +288,9 @@
             }
 
             const innovatorsDeadline = new Date(2026, 7, 1, 12, 0, 0);
-            if (categoryRegion.includes("Future Innovatrs") && now >= innovatorsDeadline) {
+            if (categoryRegion.includes("Future Innovators") && now >= innovatorsDeadline) {
                 isTimeLocked = true;
-                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบสนามพิเศษ (Future Innoators)แล้ว เมื่อวันที่ 1 ส.ค. 2569 เวลา 12.00 น.";
+                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบสนามพิเศษ (Future Innovators)แล้ว เมื่อวันที่ 1 ส.ค. 2569 เวลา 12.00 น.";
             }
 
             const engineersDeadline = new Date(2026, 7, 1, 12, 0, 0);
@@ -347,13 +346,36 @@
                   </div>`;
             }
 
+            // 🌟 เพิ่มเงื่อนไขการสร้าง Dropdown สำหรับ "Controller"
+            const controllerField = fieldMap["Controller"];
+            let controllerHtml = "";
+            if (controllerField) {
+                const finalReadonly = isLocked ? true : false; // เปิดให้แก้ไขได้ (ถ้าไม่ติดเงื่อนไข Lock)
+                const bgClass = finalReadonly ? 'bg-light text-muted' : '';
+                const disabledAttr = finalReadonly ? 'disabled' : '';
+                const currentVal = controllerField.value ? controllerField.value.trim() : "";
+                
+                controllerHtml = `
+                  <div class="col-md-6 col-12 mb-2">
+                    <label class="form-label"><i class="fas fa-robot me-2"></i>${controllerField.label}</label>
+                    <select class="form-select edit-input ${bgClass}" data-index="${controllerField.originalIndex}" ${disabledAttr}>
+                      <option value="${currentVal}">${currentVal || '-- เลือก Controller --'}</option>
+                      <option value="SPIKE Prime">SPIKE Prime</option>
+                      <option value="Robot Inventor">Robot Inventor</option>
+                      <option value="EV3">EV3</option>
+                      <option value="NXT">NXT</option>
+                      <option value="Other">Other / อื่นๆ</option>
+                    </select>
+                  </div>`;
+            }
+
             section1Html += `
               <div class="row w-100 m-0">
                 ${createInput("Event Name", true, "col-md-12", '<i class="fas fa-calendar-alt me-2"></i>')}
                 ${createInput("Category / Region", true, "col-md-5", '<i class="fas fa-globe-asia me-2"></i>')}
                 ${createInput("Province", true, "col-md-7", '<i class="fas fa-map-marker-alt me-2"></i>')}
                 ${createInput("Age Group", true, "col-md-6", '<i class="fas fa-users me-2"></i>')}
-                ${createInput("Controller", true, "col-md-6", '<i class="fas fa-robot me-2"></i>')}
+                ${controllerHtml}
                 ${createInput("Team Name", false, "col-md-5", '<i class="fas fa-id-badge me-2"></i>')}
                 ${createInput("Institution", false, "col-md-7", '<i class="fas fa-school me-2"></i>')}
               </div>`;
