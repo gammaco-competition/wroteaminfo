@@ -118,6 +118,13 @@
         border-top: 1px solid #eee;
         margin-top: 40px;
       }
+      /* สไตล์ข้อความแสดงปี พ.ศ. เพิ่มเติม */
+      .be-display {
+        color: #dc3545;
+        font-weight: 600;
+        margin-left: 5px;
+        font-size: 0.85rem;
+      }
     </style>
   </head>
 
@@ -226,7 +233,6 @@
             let isTimeLocked = false;
             let lockMessage = "";
 
-            // ตรวจสอบ Deadline ประจำโซนภูมิภาคต่างๆ ปี 2026
             if (categoryRegion.includes("ภาคใต้") && now >= new Date(2026, 4, 23, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคใต้)แล้ว"; }
             else if (categoryRegion.includes("ภาคกลาง") && now >= new Date(2026, 5, 20, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคกลาง)แล้ว"; }
             else if (categoryRegion.includes("ภาคกลาง (กทม.)") && now >= new Date(2026, 5, 6, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคกลาง (กทม.))แล้ว"; }
@@ -275,7 +281,6 @@
                   </div>`;
             }
 
-            // ตัวเลือกประเภท Controller
             const controllerField = fieldMap["Controller"];
             let controllerHtml = "";
             if (controllerField) {
@@ -328,12 +333,11 @@
                 const labelTrim = field.label.trim();
                 if (labelTrim.includes("Member") || labelTrim.includes("Date of birth")) {
                     if (labelTrim.includes("Date of birth")) {
-                        // ดึงค่าวันที่มาจัด Format เข้า Date picker (แปลงรูปแบบ DD/MM/YYYY พ.ศ. เก่า เป็นรูปแบบปฏิทิน ค.ศ. สากล)
                         let displayDateValue = "";
                         if (field.value && field.value.includes("/")) {
                           let parts = field.value.split("/");
                           if (parts.length === 3) {
-                            let adYear = parseInt(parts[2]) - 543; // แปลงกลับเป็น ค.ศ. ให้ระบบปฏิทินอ่านออก
+                            let adYear = parseInt(parts[2]) - 543;
                             displayDateValue = `${adYear}-${parts[1]}-${parts[0]}`;
                           }
                         }
@@ -341,14 +345,17 @@
                         section3Html += `
                           <div class="col-md-6 col-12 mb-2">
                             <div class="dob-header-container d-flex justify-content-between">
-                              <label class="form-label mb-0"><i class="fas fa-birthday-cake me-2"></i>${field.label}</label>
+                              <label class="form-label mb-0">
+                                <i class="fas fa-birthday-cake me-2"></i>${field.label}
+                                <span id="be_label_${index}" class="be-display"></span>
+                              </label>
                               ${!isLocked ? `
                               <div class="form-check d-flex align-items-center">
                                 <input class="form-check-input me-1" type="checkbox" id="chk_${index}" onchange="toggleDate(${index}, '${field.value}')">
                                 <label class="form-check-label" for="chk_${index}" style="font-size: 0.75rem; cursor:pointer;">Edit</label>
                               </div>` : ''}
                             </div>
-                            <input type="text" class="form-control edit-input bg-light text-muted" id="input_${index}" data-index="${index}" value="${field.value}" data-raw="${displayDateValue}" readonly>
+                            <input type="text" class="form-control edit-input bg-light text-muted" id="input_${index}" data-index="${index}" value="${field.value}" data-raw="${displayDateValue}" oninput="updateBELabel(${index}, this.value)" readonly>
                           </div>`;
                     } else {
                         section3Html += createInput(labelTrim, false, "col-md-6", '<i class="fas fa-user me-2"></i>');
@@ -364,9 +371,25 @@
           .catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
       }
 
+      // 🌟 ฟังก์ชันคำนวณและแสดง (พ.ศ. xxxx) แบบ Realtime บนหน้าเว็บตอนเลือกปฏิทิน
+      function updateBELabel(index, dateValue) {
+        const label = document.getElementById('be_label_' + index);
+        if (!label) return;
+        if (dateValue) {
+          const parts = dateValue.split("-"); // รูปแบบจาก input type="date" คือ YYYY-MM-DD
+          if (parts.length === 3) {
+            const beYear = parseInt(parts[0]) + 543;
+            label.innerHTML = `(พ.ศ. ${beYear})`; // ใส่ข้อความ พ.ศ. วงเล็บท้ายหัวข้อ
+            return;
+          }
+        }
+        label.innerHTML = "";
+      }
+
       function toggleDate(index, originalValue) {
         const input = document.getElementById('input_' + index);
         const chk = document.getElementById('chk_' + index);
+        const label = document.getElementById('be_label_' + index);
         
         if (chk.checked) {
           const ageGroupField = fieldMapping.find(f => f.label.trim() === "Age Group");
@@ -397,11 +420,14 @@
           } else {
             input.value = (minYearBE - 543) + "-01-01"; 
           }
+          // คำนวณ พ.ศ. ทันทีเมื่อเริ่มเปิดช่อง Edit
+          updateBELabel(index, input.value);
         } else {
           input.type = "text";
           input.value = originalValue;
           input.readOnly = true;
           input.classList.add('bg-light', 'text-muted');
+          if (label) label.innerHTML = ""; // ล้างค่า พ.ศ. ทิ้งเมื่อปิดการแก้ไข
         }
       }
 
@@ -444,9 +470,8 @@
               if (idx !== null && fieldMapping[idx]) {
                 let val = input.value;
                 
-                // 🌟 ปรับปรุงการบันทึก: แปลงข้อมูลจากปฏิทิน ค.ศ. กลับเป็นโครงสร้าง พ.ศ. (DD/MM/YYYY) ลงชีท
                 if (input.type === "date" && val !== "") {
-                  let parts = val.split("-"); // [YYYY, MM, DD]
+                  let parts = val.split("-"); 
                   if (parts.length === 3) {
                     let beYear = parseInt(parts[0]) + 543;
                     val = `${parts[2]}/${parts[1]}/${beYear}`;
@@ -460,11 +485,9 @@
               }
             });
 
-            // ตรวจสอบสถาปัตยกรรมการส่งข้อมูลตาม Domain ปัจจุบันเพื่อทำงานแบบ Hybrid
             const isGitHub = window.location.hostname.includes("github.io") || !window.location.hostname.includes("script.google.com");
             
             if (isGitHub) {
-              // โหมดส่งข้อมูลเข้า API สิทธิ์ CORS ข้ามโดเมนสำหรับ GitHub Pages
               return fetch(WEB_APP_URL, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -480,7 +503,6 @@
               })
               .catch(error => Swal.showValidationMessage(`Request failed: ${error}`));
             } else {
-              // โหมดรันระบบภายใน Google Apps Script Web App โดยตรง
               return new Promise((resolve, reject) => {
                 google.script.run
                   .withSuccessHandler(msg => resolve({ success: true, message: msg }))
