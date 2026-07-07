@@ -14,7 +14,6 @@
         padding: 20px 10px; 
         font-family: 'Prompt', sans-serif; 
       }
-      
       .main-card { 
         max-width: 800px; 
         width: 100%; 
@@ -24,16 +23,13 @@
         border-radius: 15px; 
         box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
       }
-
       @media (min-width: 768px) {
         body { padding: 40px 20px; }
         .main-card { padding: 30px; }
       }
-
       .form-label { font-weight: 600; color: #495057; font-size: 0.85rem; }
       .hidden { display: none; }
       .loading { color: #1a237e; font-style: italic; }
-
       .section-header {
         background-color: #e8eaf6;
         padding: 8px 12px;
@@ -44,21 +40,18 @@
         border-left: 5px solid #1a237e;
         font-size: 1rem;
       }
-
       .banner-container {
         width: 100%;
         overflow: hidden;
         border-radius: 10px;
         margin-bottom: 20px;
       }
-
       .banner-img {
         width: 100%;
         height: auto;
         display: block;
         object-fit: cover;
       }
-
       .badge-custom {
         padding: 8px 16px;
         border-radius: 8px;
@@ -69,10 +62,8 @@
         min-width: 120px;
         font-size: 0.9rem;
       }
-
       .status-registered { background-color: #059669; color: #ffffff; }
       .status-cancel { background-color: #dc3545; }
-
       .dot-green-pulse {
         height: 10px; width: 10px;
         background-color: #2ecc71;
@@ -81,13 +72,11 @@
         box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
         animation: pulse-green 2s infinite;
       }
-
       @keyframes pulse-green {
         0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
         70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
         100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
       }
-
       .dot-red {
         height: 10px; width: 10px;
         background-color: #ffc107;
@@ -96,31 +85,23 @@
         box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
         animation: pulse-red 2s infinite;
       }
-
       @keyframes pulse-red {
         0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7); }
         70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 193, 7, 0); }
         100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
       }
-
       .btn { padding: 10px 20px; font-weight: 600; border-radius: 8px; }
-
       @media (max-width: 576px) {
-        .col-md-8, .col-md-4, .col-md-6, .col-md-5, .col-md-7, .col-md-12 {
-          width: 100% !important; 
-        }
+        .col-md-8, .col-md-4, .col-md-6, .col-md-5, .col-md-7, .col-md-12 { width: 100% !important; }
         .main-card { border-radius: 0; box-shadow: none; } 
       }
-
       .btn-save-custom {
         background-color: #1a237e !important;
         border-color: #1a237e !important;
         color: white !important;
         transition: 0.3s;
       }
-
       .btn-save-custom:hover { background-color: #0d1440 !important; opacity: 0.9; }
-
       .dob-header-container {
         display: flex;
         justify-content: space-between;
@@ -128,10 +109,6 @@
         width: 100%;
         margin-bottom: 5px;
       }
-
-      .section-header .btn-outline-primary { border-color: #1a237e; color: #1a237e; transition: all 0.3s ease; }
-      .section-header .btn-outline-primary:hover { background-color: #1a237e !important; color: white !important; transform: translateY(-1px); }
-
       .site-footer {
         padding: 20px;
         text-align: center;
@@ -181,7 +158,7 @@
 
       <div style="display: flex; justify-content: flex-end; padding: 15px 15px 5px 0;">
         <p style="margin: 0; font-size: 0.8rem; color: #888; font-style: italic;">
-          *Update 2026-04-03
+          *Update Hybrid Mode 2026
         </p>
       </div>
       <footer class="site-footer">
@@ -190,7 +167,6 @@
     </div>
 
     <script>
-      // 🚨 สำคัญ: นำ URL ของ Web App ที่ก๊อปปี้จากขั้นตอนการ Deploy ของ Google Apps Script มาวางแทนข้อความด้านล่างนี้
       const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJdI-Je0SZE0IcKE7S-95hquFmjdXOi5kahyhFODKOsJ0mSGBHwFnqc7QowDptpHq3/exec";
 
       let currentTeamId = "";
@@ -213,7 +189,6 @@
             if(res.error) return alert(res.error);
             
             const select = document.getElementById('teamDropdown');
-            // ตรวจสอบสิทธิ์โหมดแอดมินจากการตอบกลับหลังบ้าน
             const labelText = res.isAdmin ? "-- เลือก Team ID ทั้งหมด (โหมดผู้ดูแลระบบ) --" : "-- เลือก Team ID --";
             
             select.innerHTML = `<option value="">${labelText}</option>`;
@@ -251,62 +226,18 @@
             let isTimeLocked = false;
             let lockMessage = "";
 
-            const southDeadline = new Date(2026, 4, 23, 12, 0, 0); 
-            if (categoryRegion.includes("ภาคใต้") && now >= southDeadline) {
-                isTimeLocked = true;
-                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคใต้)แล้ว เมื่อวันที่ 23 พ.ค. 2569 เวลา 12.00 น.";
-            }
+            // ตรวจสอบ Deadline ประจำโซนภูมิภาคต่างๆ ปี 2026
+            if (categoryRegion.includes("ภาคใต้") && now >= new Date(2026, 4, 23, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคใต้)แล้ว"; }
+            else if (categoryRegion.includes("ภาคกลาง") && now >= new Date(2026, 5, 20, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคกลาง)แล้ว"; }
+            else if (categoryRegion.includes("ภาคกลาง (กทม.)") && now >= new Date(2026, 5, 6, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคกลาง (กทม.))แล้ว"; }
+            else if (categoryRegion.includes("ภาคอีสาน") && now >= new Date(2026, 6, 4, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคอีสาน)แล้ว"; }
+            else if (categoryRegion.includes("ภาคเหนือ") && now >= new Date(2026, 6, 18, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคเหนือ)แล้ว"; }
+            else if (categoryRegion.includes("Robosports") && now >= new Date(2026, 7, 1, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบสนามพิเศษ (Robosports)แล้ว"; }
+            else if (categoryRegion.includes("Future Innovators") && now >= new Date(2026, 7, 1, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบสนามพิเศษ (Future Innovators)แล้ว"; }
+            else if (categoryRegion.includes("Future Engineers") && now >= new Date(2026, 7, 1, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบสนามพิเศษ (Future Engineers)แล้ว"; }
+            else if (categoryRegion.includes("Final") && now >= new Date(2026, 8, 12, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบชิงแชมป์ประเทศไทยแล้ว"; }
 
-            const centralDeadline = new Date(2026, 5, 20, 12, 0, 0);
-            if (categoryRegion.includes("ภาคกลาง") && now >= centralDeadline) {
-                isTimeLocked = true;
-                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคกลาง)แล้ว เมื่อวันที่ 20 มิ.ย. 2569 เวลา 12.00 น.";
-            }
-
-            const bangkokDeadline = new Date(2026, 5, 6, 12, 0, 0);
-            if (categoryRegion.includes("ภาคกลาง (กทม.)") && now >= bangkokDeadline) {
-                isTimeLocked = true;
-                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคกลาง (กทม.))แล้ว เมื่อวันที่ 6 มิ.ย. 2569 เวลา 12.00 น.";
-            }
-
-            const northeastDeadline = new Date(2026, 6, 4, 12, 0, 0);
-            if (categoryRegion.includes("ภาคอีสาน") && now >= northeastDeadline) {
-                isTimeLocked = true;
-                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคอีสาน)แล้ว เมื่อวันที่ 4 ก.ค. 2569 เวลา 12.00 น.";
-            }
-
-            const northDeadline = new Date(2026, 6, 18, 12, 0, 0);
-            if (categoryRegion.includes("ภาคเหนือ") && now >= northDeadline) {
-                isTimeLocked = true;
-                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคเหนือ)แล้ว เมื่อวันที่ 18 ก.ค. 2569 เวลา 12.00 น.";
-            }
-
-            const robosportsDeadline = new Date(2026, 7, 1, 12, 0, 0);
-            if (categoryRegion.includes("Robosports") && now >= robosportsDeadline) {
-                isTimeLocked = true;
-                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบสนามพิเศษ (Robosports)แล้ว เมื่อวันที่ 1 ส.ค. 2569 เวลา 12.00 น.";
-            }
-
-            const innovatorsDeadline = new Date(2026, 7, 1, 12, 0, 0);
-            if (categoryRegion.includes("Future Innovators") && now >= innovatorsDeadline) {
-                isTimeLocked = true;
-                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบสนามพิเศษ (Future Innovators)แล้ว เมื่อวันที่ 1 ส.ค. 2569 เวลา 12.00 น.";
-            }
-
-            const engineersDeadline = new Date(2026, 7, 1, 12, 0, 0);
-            if (categoryRegion.includes("Future Engineers") && now >= engineersDeadline) {
-                isTimeLocked = true;
-                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบสนามพิเศษ (Future Engineers)แล้ว เมื่อวันที่ 1 ส.ค. 2569 เวลา 12.00 น.";
-            }
-
-            const finalDeadline = new Date(2026, 8, 12, 12, 0, 0);
-            if (categoryRegion.includes("Final") && now >= finalDeadline) {
-                isTimeLocked = true;
-                lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบชิงแชมป์ประเทศไทยแล้ว เมื่อวันที่ 12 ก.ย. 2569 เวลา 12.00 น.";
-            }
-
-            const statusField = fieldMap["Status"];
-            const statusValue = statusField ? statusField.value.trim() : "";
+            const statusValue = fieldMap["Status"] ? fieldMap["Status"].value.trim() : "";
             const isLocked = (statusValue === "Cancel" || isTimeLocked);
 
             const createInput = (label, isReadonly = true, colClass = "col-md-6", iconHtml = "") => {
@@ -329,8 +260,7 @@
               <div class="col-12">
                 <div class="section-header d-flex justify-content-between align-items-center">
                   <span>Team Info</span>
-                  <div class="badge-custom ${statusClass}" 
-                       style="font-size: 0.75rem; padding: 2px 10px; border-radius: 5px; font-weight: 600; display: flex; align-items: center; gap: 5px; height: fit-content; border: 1px solid currentColor;">
+                  <div class="badge-custom ${statusClass}" style="font-size: 0.75rem; padding: 2px 10px; border-radius: 5px; font-weight: 600; display: flex; align-items: center; gap: 5px; height: fit-content; border: 1px solid currentColor;">
                     ${statusValue} <span class="${dotClass}" style="width: 8px; height: 8px;"></span>
                   </div>
                 </div>
@@ -340,17 +270,16 @@
                 section1Html += `
                   <div class="col-12 mb-2">
                     <div class="alert alert-warning" style="font-size: 0.85rem; padding: 10px;">
-                      <strong>⚠️ ไม่สามารถแก้ไขข้อมูลได้:</strong> ${isTimeLocked ? lockMessage : "เนื่องจากทีมถูกยกเลิก"}
-                      <br><small class="text-muted">สอบถามเพิ่มเติมโทร 02 459 4731-8 ต่อ 232</small>
+                      <strong>⚠️ ไม่สามารถแก้ไขข้อมูลได้:</strong> ${lockMessage || "เนื่องจากทีมถูกยกเลิก"}
                     </div>
                   </div>`;
             }
 
-            // 🌟 เพิ่มเงื่อนไขการสร้าง Dropdown สำหรับ "Controller"
+            // ตัวเลือกประเภท Controller
             const controllerField = fieldMap["Controller"];
             let controllerHtml = "";
             if (controllerField) {
-                const finalReadonly = isLocked ? true : false; // เปิดให้แก้ไขได้ (ถ้าไม่ติดเงื่อนไข Lock)
+                const finalReadonly = isLocked ? true : false;
                 const bgClass = finalReadonly ? 'bg-light text-muted' : '';
                 const disabledAttr = finalReadonly ? 'disabled' : '';
                 const currentVal = controllerField.value ? controllerField.value.trim() : "";
@@ -391,10 +320,7 @@
               <div class="col-12">
                 <div class="section-header d-flex justify-content-between align-items-center">
                   <span>Competitors</span>
-                  <a href="${WEB_APP_URL}?page=table" 
-                     target="_blank" class="btn btn-sm btn-light">
-                     <i class="bi bi-calendar3"></i> Check BE - AD.
-                  </a>
+                  <a href="${WEB_APP_URL}?page=table" target="_blank" class="btn btn-sm btn-light"><i class="fas fa-calendar-alt"></i> Check BE - AD.</a>
                 </div>
               </div><div class="row w-100 m-0">`;
 
@@ -402,6 +328,16 @@
                 const labelTrim = field.label.trim();
                 if (labelTrim.includes("Member") || labelTrim.includes("Date of birth")) {
                     if (labelTrim.includes("Date of birth")) {
+                        // ดึงค่าวันที่มาจัด Format เข้า Date picker (แปลงรูปแบบ DD/MM/YYYY พ.ศ. เก่า เป็นรูปแบบปฏิทิน ค.ศ. สากล)
+                        let displayDateValue = "";
+                        if (field.value && field.value.includes("/")) {
+                          let parts = field.value.split("/");
+                          if (parts.length === 3) {
+                            let adYear = parseInt(parts[2]) - 543; // แปลงกลับเป็น ค.ศ. ให้ระบบปฏิทินอ่านออก
+                            displayDateValue = `${adYear}-${parts[1]}-${parts[0]}`;
+                          }
+                        }
+
                         section3Html += `
                           <div class="col-md-6 col-12 mb-2">
                             <div class="dob-header-container d-flex justify-content-between">
@@ -412,7 +348,7 @@
                                 <label class="form-check-label" for="chk_${index}" style="font-size: 0.75rem; cursor:pointer;">Edit</label>
                               </div>` : ''}
                             </div>
-                            <input type="text" class="form-control edit-input bg-light text-muted" id="input_${index}" data-index="${index}" value="${field.value}" readonly>
+                            <input type="text" class="form-control edit-input bg-light text-muted" id="input_${index}" data-index="${index}" value="${field.value}" data-raw="${displayDateValue}" readonly>
                           </div>`;
                     } else {
                         section3Html += createInput(labelTrim, false, "col-md-6", '<i class="fas fa-user me-2"></i>');
@@ -435,7 +371,6 @@
         if (chk.checked) {
           const ageGroupField = fieldMapping.find(f => f.label.trim() === "Age Group");
           const ageGroup = ageGroupField ? ageGroupField.value.trim() : "";
-          
           let minYearBE, maxYearBE;
 
           switch(ageGroup) {
@@ -456,13 +391,12 @@
           input.readOnly = false;
           input.classList.remove('bg-light', 'text-muted');
 
-          let d = new Date(originalValue);
-          if (!isNaN(d.getTime())) {
-            input.value = d.toISOString().split('T')[0];
+          let rawVal = input.getAttribute("data-raw");
+          if (rawVal && !isNaN(new Date(rawVal).getTime())) {
+            input.value = rawVal;
           } else {
             input.value = (minYearBE - 543) + "-01-01"; 
           }
-
         } else {
           input.type = "text";
           input.value = originalValue;
@@ -481,14 +415,13 @@
         inputs.forEach(input => {
           if (input.type === "date" && input.value !== "") {
             const selectedDate = new Date(input.value);
-            const yearAD = selectedDate.getFullYear(); 
-            const yearBE = yearAD + 543; 
+            const yearBE = selectedDate.getFullYear() + 543; 
 
-            if (ageGroup === "Elementary") { if (yearBE < 2557 || yearBE > 2561) errorMessage = "Age Group: Elementary ต้องเกิดระหว่าง พ.ศ. 2557 - 2561"; } 
-            else if (ageGroup === "Junior") { if (yearBE < 2554 || yearBE > 2558) errorMessage = "Age Group: Junior ต้องเกิดระหว่าง พ.ศ. 2554 - 2558"; } 
-            else if (ageGroup === "Senior") { if (yearBE < 2550 || yearBE > 2555) errorMessage = "Age Group: Senior ต้องเกิดระหว่าง พ.ศ. 2550 - 2555"; } 
-            else if (ageGroup === "Robosports") { if (yearBE < 2550 || yearBE > 2558) errorMessage = "Age Group: Robosports ต้องเกิดระหว่าง พ.ศ. 2550 - 2558"; } 
-            else if (ageGroup === "Future Engineers") { if (yearBE < 2547 || yearBE > 2555) errorMessage = "Age Group: Future Engineers ต้องเกิดระหว่าง พ.ศ. 2547 - 2555"; }
+            if (ageGroup === "Elementary" && (yearBE < 2557 || yearBE > 2561)) errorMessage = "Age Group: Elementary ต้องเกิดระหว่าง พ.ศ. 2557 - 2561";
+            else if (ageGroup === "Junior" && (yearBE < 2554 || yearBE > 2558)) errorMessage = "Age Group: Junior ต้องเกิดระหว่าง พ.ศ. 2554 - 2558";
+            else if (ageGroup === "Senior" && (yearBE < 2550 || yearBE > 2555)) errorMessage = "Age Group: Senior ต้องเกิดระหว่าง พ.ศ. 2550 - 2555";
+            else if (ageGroup === "Robosports" && (yearBE < 2550 || yearBE > 2558)) errorMessage = "Age Group: Robosports ต้องเกิดระหว่าง พ.ศ. 2550 - 2558";
+            else if (ageGroup === "Future Engineers" && (yearBE < 2547 || yearBE > 2555)) errorMessage = "Age Group: Future Engineers ต้องเกิดระหว่าง พ.ศ. 2547 - 2555";
           }
         });
 
@@ -509,34 +442,57 @@
             inputs.forEach(input => {
               const idx = input.getAttribute('data-index');
               if (idx !== null && fieldMapping[idx]) {
+                let val = input.value;
+                
+                // 🌟 ปรับปรุงการบันทึก: แปลงข้อมูลจากปฏิทิน ค.ศ. กลับเป็นโครงสร้าง พ.ศ. (DD/MM/YYYY) ลงชีท
+                if (input.type === "date" && val !== "") {
+                  let parts = val.split("-"); // [YYYY, MM, DD]
+                  if (parts.length === 3) {
+                    let beYear = parseInt(parts[0]) + 543;
+                    val = `${parts[2]}/${parts[1]}/${beYear}`;
+                  }
+                }
+
                 updatedData.push({ 
                   colIndex: fieldMapping[idx].colIndex, 
-                  value: input.value 
+                  value: val 
                 });
               }
             });
 
-            return fetch(WEB_APP_URL, {
-              method: 'POST',
-              body: JSON.stringify({
-                action: "update",
-                teamId: currentTeamId,
-                updatedValues: updatedData
+            // ตรวจสอบสถาปัตยกรรมการส่งข้อมูลตาม Domain ปัจจุบันเพื่อทำงานแบบ Hybrid
+            const isGitHub = window.location.hostname.includes("github.io") || !window.location.hostname.includes("script.google.com");
+            
+            if (isGitHub) {
+              // โหมดส่งข้อมูลเข้า API สิทธิ์ CORS ข้ามโดเมนสำหรับ GitHub Pages
+              return fetch(WEB_APP_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                  action: "update",
+                  teamId: currentTeamId,
+                  updatedValues: updatedData
+                })
               })
-            })
-            .then(response => response.json())
-            .then(data => {
-              if (!data.success) throw new Error(data.error);
-              return data;
-            })
-            .catch(error => Swal.showValidationMessage(`Request failed: ${error}`));
+              .then(response => response.json())
+              .then(data => {
+                if (!data.success) throw new Error(data.error);
+                return data;
+              })
+              .catch(error => Swal.showValidationMessage(`Request failed: ${error}`));
+            } else {
+              // โหมดรันระบบภายใน Google Apps Script Web App โดยตรง
+              return new Promise((resolve, reject) => {
+                google.script.run
+                  .withSuccessHandler(msg => resolve({ success: true, message: msg }))
+                  .withFailureHandler(err => reject(err))
+                  .updateData(currentTeamId, JSON.stringify(updatedData));
+              }).catch(error => Swal.showValidationMessage(`Request failed: ${error.message || error}`));
+            }
           }
         }).then((result) => {
           if (result.isConfirmed) {
             Swal.fire({ icon: 'success', title: 'สำเร็จ!', text: 'อัปเดตเรียบร้อยแล้ว' })
-            .then(() => {
-               location.reload(); 
-            });
+            .then(() => { location.reload(); });
           }
         });
       }
