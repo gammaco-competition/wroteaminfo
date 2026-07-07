@@ -206,6 +206,7 @@
         if(!email) return alert("กรุณากรอกอีเมล");
         showStatus(true);
 
+        // ยิง API ด้วย Email ตามปกติเหมือนโค้ดเดิมของคุณ
         fetch(`${WEB_APP_URL}?action=getTeams&email=${encodeURIComponent(email)}`)
           .then(res => res.json())
           .then(res => {
@@ -213,7 +214,10 @@
             if(res.error) return alert(res.error);
             
             const select = document.getElementById('teamDropdown');
-            select.innerHTML = '<option value="">-- เลือก Team ID --</option>';
+            // หากระบบตรวจสอบหลังบ้านแล้วพบว่าเป็น Admin จะเปลี่ยนข้อความแจ้งเตือนให้ทราบ
+            const labelText = res.isAdmin ? "-- เลือก Team ID ทั้งหมด (โหมดผู้ดูแลระบบ) --" : "-- เลือก Team ID --";
+            
+            select.innerHTML = `<option value="">${labelText}</option>`;
             res.teams.forEach(id => { select.innerHTML += `<option value="${id}">${id}</option>`; });
             
             document.getElementById('loginSection').classList.add('hidden');
