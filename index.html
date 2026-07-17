@@ -118,7 +118,6 @@
         border-top: 1px solid #eee;
         margin-top: 40px;
       }
-      /* สไตล์ข้อความแสดงปี พ.ศ. เพิ่มเติม */
       .be-display {
         color: #dc3545;
         font-weight: 600;
@@ -228,7 +227,8 @@
             const fieldMap = {};
             fields.forEach((f, index) => { fieldMap[f.label.trim()] = { ...f, originalIndex: index }; });
 
-            const categoryRegion = fieldMap["Category / Region"] ? fieldMap["Category / Region"].value.trim() : "";
+            // ป้องกัน Error ด้วยการครอบ String() และตรวจสอบค่าว่างอย่างปลอดภัย
+            const categoryRegion = fieldMap["Category / Region"] ? String(fieldMap["Category / Region"].value).trim() : "";
             const now = new Date();
             let isTimeLocked = false;
             let lockMessage = "";
@@ -243,7 +243,7 @@
             else if (categoryRegion.includes("Future Engineers") && now >= new Date(2026, 7, 1, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบสนามพิเศษ (Future Engineers)แล้ว"; }
             else if (categoryRegion.includes("Final") && now >= new Date(2026, 8, 12, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบชิงแชมป์ประเทศไทยแล้ว"; }
 
-            const statusValue = fieldMap["Status"] ? fieldMap["Status"].value.trim() : "";
+            const statusValue = fieldMap["Status"] ? String(fieldMap["Status"].value).trim() : "";
             const isLocked = (statusValue === "Cancel" || isTimeLocked);
 
             const createInput = (label, isReadonly = true, colClass = "col-md-6", iconHtml = "") => {
@@ -287,7 +287,7 @@
                 const finalReadonly = isLocked ? true : false;
                 const bgClass = finalReadonly ? 'bg-light text-muted' : '';
                 const disabledAttr = finalReadonly ? 'disabled' : '';
-                const currentVal = controllerField.value ? controllerField.value.trim() : "";
+                const currentVal = controllerField.value ? String(controllerField.value).trim() : "";
                 
                 controllerHtml = `
                   <div class="col-md-6 col-12 mb-2">
@@ -330,12 +330,13 @@
               </div><div class="row w-100 m-0">`;
 
             fields.forEach((field, index) => {
-                const labelTrim = field.label.trim();
+                const labelTrim = String(field.label).trim();
                 if (labelTrim.includes("Member") || labelTrim.includes("Date of birth")) {
                     if (labelTrim.includes("Date of birth")) {
                         let displayDateValue = "";
-                        if (field.value && field.value.includes("/")) {
-                          let parts = field.value.split("/");
+                        // แก้ไขจุดนี้: แปลง field.value เป็น String ก่อนเรียกใช้ .includesเพื่อกัน Error
+                        if (field.value && String(field.value).includes("/")) {
+                          let parts = String(field.value).split("/");
                           if (parts.length === 3) {
                             let adYear = parseInt(parts[2]) - 543;
                             displayDateValue = `${adYear}-${parts[1]}-${parts[0]}`;
@@ -351,7 +352,7 @@
                               </label>
                               ${!isLocked ? `
                               <div class="form-check d-flex align-items-center">
-                                <input class="form-check-input me-1" type="checkbox" id="chk_${index}" onchange="toggleDate(${index}, '${field.value}')">
+                                <input class="form-check-input me-1" type="checkbox" id="chk_${index}" onchange="toggleDate(${index})">
                                 <label class="form-check-label" for="chk_${index}" style="font-size: 0.75rem; cursor:pointer;">Edit</label>
                               </div>` : ''}
                             </div>
@@ -371,25 +372,28 @@
           .catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
       }
 
-      // 🌟 ฟังก์ชันคำนวณและแสดง (พ.ศ. xxxx) แบบ Realtime บนหน้าเว็บตอนเลือกปฏิทิน
       function updateBELabel(index, dateValue) {
         const label = document.getElementById('be_label_' + index);
         if (!label) return;
         if (dateValue) {
-          const parts = dateValue.split("-"); // รูปแบบจาก input type="date" คือ YYYY-MM-DD
+          const parts = dateValue.split("-"); 
           if (parts.length === 3) {
             const beYear = parseInt(parts[0]) + 543;
-            label.innerHTML = `(พ.ศ. ${beYear})`; // ใส่ข้อความ พ.ศ. วงเล็บท้ายหัวข้อ
+            label.innerHTML = `(พ.ศ. ${beYear})`; 
             return;
           }
         }
         label.innerHTML = "";
       }
 
-      function toggleDate(index, originalValue) {
+      // แก้ไขจุดนี้: ยกเลิกการส่งค่า raw string ผ่านแอตทริบิวต์ เพื่อความปลอดภัยของโครงสร้าง HTML 
+      function toggleDate(index) {
         const input = document.getElementById('input_' + index);
         const chk = document.getElementById('chk_' + index);
         const label = document.getElementById('be_label_' + index);
+        
+        // ดึงค่า Original Value ปลอดภัยจากตัวแปร global ตรง ๆ 
+        const originalValue = (fieldMapping[index] && fieldMapping[index].value) ? fieldMapping[index].value : "";
         
         if (chk.checked) {
           const ageGroupField = fieldMapping.find(f => f.label.trim() === "Age Group");
@@ -420,14 +424,13 @@
           } else {
             input.value = (minYearBE - 543) + "-01-01"; 
           }
-          // คำนวณ พ.ศ. ทันทีเมื่อเริ่มเปิดช่อง Edit
           updateBELabel(index, input.value);
         } else {
           input.type = "text";
           input.value = originalValue;
           input.readOnly = true;
           input.classList.add('bg-light', 'text-muted');
-          if (label) label.innerHTML = ""; // ล้างค่า พ.ศ. ทิ้งเมื่อปิดการแก้ไข
+          if (label) label.innerHTML = ""; 
         }
       }
 
