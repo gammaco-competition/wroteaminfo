@@ -1,526 +1,1177 @@
 <!DOCTYPE html>
 <html lang="th">
-  <head>
-    <base target="_top">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
-      body { 
-        background-color: #f8f9fa; 
-        padding: 20px 10px; 
-        font-family: 'Prompt', sans-serif; 
-      }
-      .main-card { 
-        max-width: 800px; 
-        width: 100%; 
-        margin: auto; 
-        background: white; 
-        padding: 20px; 
-        border-radius: 15px; 
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
-      }
-      @media (min-width: 768px) {
-        body { padding: 40px 20px; }
-        .main-card { padding: 30px; }
-      }
-      .form-label { font-weight: 600; color: #495057; font-size: 0.85rem; }
-      .hidden { display: none; }
-      .loading { color: #1a237e; font-style: italic; }
-      .section-header {
-        background-color: #e8eaf6;
-        padding: 8px 12px;
-        border-radius: 5px;
-        margin: 25px 0 10px 0;
-        font-weight: bold;
-        color: #1a237e;
-        border-left: 5px solid #1a237e;
-        font-size: 1rem;
-      }
-      .banner-container {
-        width: 100%;
-        overflow: hidden;
-        border-radius: 10px;
-        margin-bottom: 20px;
-      }
-      .banner-img {
-        width: 100%;
-        height: auto;
-        display: block;
-        object-fit: cover;
-      }
-      .badge-custom {
-        padding: 8px 16px;
-        border-radius: 8px;
-        font-weight: bold;
-        color: white;
-        display: inline-flex;
-        align-items: center;
-        min-width: 120px;
-        font-size: 0.9rem;
-      }
-      .status-registered { background-color: #059669; color: #ffffff; }
-      .status-cancel { background-color: #dc3545; }
-      .dot-green-pulse {
-        height: 10px; width: 10px;
-        background-color: #2ecc71;
-        border-radius: 50%;
-        margin-left: 10px;
-        box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
-        animation: pulse-green 2s infinite;
-      }
-      @keyframes pulse-green {
-        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
-        70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
-        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
-      }
-      .dot-red {
-        height: 10px; width: 10px;
-        background-color: #ffc107;
-        border-radius: 50%;
-        margin-left: 10px;
-        box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
-        animation: pulse-red 2s infinite;
-      }
-      @keyframes pulse-red {
-        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7); }
-        70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 193, 7, 0); }
-        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
-      }
-      .btn { padding: 10px 20px; font-weight: 600; border-radius: 8px; }
-      @media (max-width: 576px) {
-        .col-md-8, .col-md-4, .col-md-6, .col-md-5, .col-md-7, .col-md-12 { width: 100% !important; }
-        .main-card { border-radius: 0; box-shadow: none; } 
-      }
-      .btn-save-custom {
-        background-color: #1a237e !important;
-        border-color: #1a237e !important;
-        color: white !important;
-        transition: 0.3s;
-      }
-      .btn-save-custom:hover { background-color: #0d1440 !important; opacity: 0.9; }
-      .dob-header-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        margin-bottom: 5px;
-      }
-      .site-footer {
-        padding: 20px;
-        text-align: center;
-        font-size: 14px;
-        color: #666; 
-        font-family: 'Prompt', sans-serif;
-        border-top: 1px solid #eee;
-        margin-top: 40px;
-      }
-      .be-display {
-        color: #dc3545;
-        font-weight: 600;
-        margin-left: 5px;
-        font-size: 0.85rem;
-      }
-    </style>
-  </head>
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Information System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body { background-color: #f8f9fa; padding: 20px 10px; font-family: 'Prompt', sans-serif; }
+    
+    .gear-btn {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: #ffffff;
+      border: 1px solid #dee2e6;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      z-index: 2000;
+    }
+    .gear-btn:hover { background: #f8f9fa; transform: rotate(60deg); }
 
-  <body>
-    <div class="main-card">
-      <div class="banner-container">
-        <img src="https://img2.pic.in.th/Gemini_Generated_Image_ppt91xppt91xppt9.png" alt="Banner" class="banner-img">
-      </div>
+    .outside-container {
+      min-height: 75vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+    .outside-title { color: #d32f2f; font-weight: 700; font-size: 2rem; margin-bottom: 15px; }
+    .outside-subtitle { font-size: 1.15rem; color: #333333; font-weight: 400; }
+
+    .main-card { position: relative; max-width: 800px; width: 100%; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    @media (min-width: 768px) { body { padding: 40px 20px; } .main-card { padding: 30px; } }
+
+    .form-label { font-weight: 600; color: #495057; font-size: 0.85rem; }
+    .hidden { display: none !important; }
+    .loading { color: #1a237e; font-style: italic; }
+    
+    .admin-badge { background-color: #d32f2f; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-bottom: 15px; display: inline-block; }
+    .admin-panel { background-color: #fff8e1; border: 1px solid #ffe082; border-radius: 12px; padding: 18px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(255, 193, 7, 0.15); }
+    
+    .section-header { background-color: #e8eaf6; padding: 8px 12px; border-radius: 5px; margin: 25px 0 10px 0; font-weight: bold; color: #1a237e; border-left: 5px solid #1a237e; font-size: 1rem; }
+    
+    .btn-year-compare {
+      background: #ffffff;
+      border: 1px solid #1a237e;
+      color: #1a237e;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border-radius: 6px;
+      padding: 3px 10px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .btn-year-compare:hover { background: #1a237e; color: #ffffff; }
+
+    .app-media-wrapper { width: 100%; margin-bottom: 20px; }
+    
+    .banner-mode-container {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      background-color: #f1f3f5;
+      min-height: 140px;
+    }
+    .banner-slide-img { width: 100%; height: auto; display: block; object-fit: cover; transition: opacity 0.8s ease-in-out; }
+
+    .logo-mode-container {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 20px auto;
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background-color: #ffffff;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      border: 1px solid #e9ecef;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-slide-img { width: 100%; height: 100%; object-fit: contain; padding: 10px; transition: opacity 0.8s ease-in-out; }
+
+    .slide-dots { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 10; }
+    .slide-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(0,0,0,0.2); cursor: pointer; transition: all 0.3s ease; }
+    .slide-dot.active { background: #1a237e; transform: scale(1.25); }
+    .logo-mode-container .slide-dots { bottom: 4px; }
+    .logo-mode-container .slide-dot { background: rgba(0,0,0,0.25); }
+    .logo-mode-container .slide-dot.active { background: #d32f2f; }
+
+    .status-wrapper { display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 15px; }
+    .badge-custom { padding: 8px 16px; border-radius: 8px; font-weight: bold; color: white; display: inline-flex; align-items: center; min-width: 120px; font-size: 0.9rem; }
+    .status-registered { background-color: #166534; }
+    .status-cancel { background-color: #dc3545; }
+    
+    .dot-green-pulse { height: 10px; width: 10px; background-color: #2ecc71; border-radius: 50%; margin-left: 10px; animation: pulse-green 2s infinite; }
+    @keyframes pulse-green { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); } }
+    
+    .dot-red { height: 10px; width: 10px; background-color: #ffc107; border-radius: 50%; margin-left: 10px; animation: pulse-red 2s infinite; }
+    @keyframes pulse-red { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 193, 7, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); } }
+    
+    .btn { padding: 10px 20px; font-weight: 600; border-radius: 8px; }
+    .btn-save-custom { background-color: #1a237e !important; border-color: #1a237e !important; color: white !important; transition: 0.3s; }
+    .btn-save-custom:hover { background-color: #0d1440 !important; opacity: 0.9; }
+    
+    .dob-header-container { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 5px; }
+    .image-slot-card { background: white; border: 1px solid #dee2e6; border-radius: 8px; padding: 10px; margin-bottom: 8px; }
+    .image-preview-mini { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid #ced4da; }
+    .agegroup-rule-row { border: 1px solid #e2e8f0; transition: background-color 0.2s; }
+    .agegroup-rule-row:hover { background-color: #edf2f7 !important; }
+    
+    @media (max-width: 576px) { .col-md-8, .col-md-4, .col-md-6 { width: 100% !important; } .main-card { border-radius: 0; box-shadow: none; } }
+
+    .app-footer {
+  text-align: center;
+  color: #495057; /* ตัวหนังสือสีเทาเข้ม */
+  font-size: 0.8rem; /* ตัวหนังสือขนาดเล็ก */
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+  </style>
+</head>
+<body>
+
+  <button class="gear-btn" onclick="promptAdminLogin()" title="Admin Setting">⚙️</button>
+
+  <div id="outsideSystemSection" class="outside-container hidden">
+    <div id="outsideMediaContainer" class="app-media-wrapper"></div>
+    <div id="outsideTitle" class="outside-title"></div>
+    <div id="outsideSubtitle" class="outside-subtitle"></div>
+  </div>
+
+  <div id="mainContentCard" class="main-card hidden">
+    <div id="mainMediaContainer" class="app-media-wrapper"></div>
+    <p id="noteTextDisplay" style="color: red; font-weight: bold;"></p>
+
+    <!-- Admin Panel -->
+    <div id="adminPanelSection" class="hidden admin-panel mb-4">
+      <div class="admin-badge">⚙️ Admin Control Panel</div>
+      <h6 class="fw-bold mb-3">ตั้งค่าระบบ (System Settings)</h6>
       
-      <div id="loginSection" class="container-fluid px-0">
-        <div class="mb-3">
-          <label class="form-label">Your Email (อีเมลของคุณ)</label>
-          <input type="email" id="email" class="form-control form-control-lg" placeholder="example@mail.com">
+      <div class="row g-2 mb-3">
+        <div class="col-md-6">
+          <label class="form-label">วัน-เวลา เปิดระบบ</label>
+          <input type="datetime-local" id="cfgOpenDate" class="form-control form-control-sm">
         </div>
-        <button onclick="login()" id="loginBtn" class="btn btn-primary w-100">Confirm</button>
-      </div>
+        <div class="col-md-6">
+          <label class="form-label">วัน-เวลา ปิดระบบ</label>
+          <input type="datetime-local" id="cfgCloseDate" class="form-control form-control-sm">
+        </div>
+        
+        <div class="col-12">
+          <label class="form-label">ข้อความหมายเหตุ (ตัวหนังสือสีแดง)</label>
+          <textarea id="cfgNoteText" class="form-control form-control-sm" rows="2"></textarea>
+        </div>
 
-      <div id="selectSection" class="hidden container-fluid px-0">
-        <div class="mb-3">
-          <label class="form-label">Choose Team ID</label>
-          <select id="teamDropdown" class="form-select form-select-lg" onchange="loadTeamData()">
-            <option value="">-- Choose your Team ID --</option>
-          </select>
+        <div class="col-12 mt-2">
+          <label class="form-label fw-bold">รูปแบบการแสดงผลภาพ (Display Mode)</label>
+          <div class="d-flex gap-4 p-2 border rounded bg-white">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="imageMode" id="modeBanner" value="BANNER">
+              <label class="form-check-label" for="modeBanner">🖼️ <strong> Banner</strong> (1200 x 250 px)</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="imageMode" id="modeLogo" value="LOGO">
+              <label class="form-check-label" for="modeLogo">🛡️ <strong>Logo</strong> (200 x 200 px)</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 mt-3">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <label class="form-label fw-bold mb-0">รูปภาพโลโก้ / แบนเนอร์ (อัปโหลดหรือใส่ URL ได้สูงสุด 3 ภาพ)</label>
+            <button type="button" class="btn btn-outline-primary btn-sm py-0 px-2" onclick="addImageSlot()" id="btnAddSlot" style="font-size: 0.75rem;">+ เพิ่มภาพ</button>
+          </div>
+          <small class="text-muted d-block mb-2">* สลับภาพอัตโนมัติเมื่อมีมากกว่า 1 ภาพ</small>
+          <div id="imageSlotsContainer"></div>
+        </div>
+
+        <!-- 1. เลือกล็อก Category / Region -->
+        <div class="col-12 mt-2">
+          <label class="form-label fw-bold">Category / Region</label>
+          <div id="cfgActiveCategoryRegionContainer" class="p-2 border rounded bg-white" style="max-height: 160px; overflow-y: auto;"></div>
+        </div>
+
+        <!-- 2. กำหนดช่วงปีเกิดของแต่ละ Age Group (Col E) -->
+        <div class="col-12 mt-3">
+          <label class="form-label fw-bold">🎯 กำหนดช่วงปีเกิด</label>
+          <small class="text-muted d-block mb-2">* กรอกปีเป็น ค.ศ. หรือ พ.ศ. ก็ได้ ระบบจะแปลงให้อัตโนมัติ</small>
+          <div id="cfgAgeGroupRulesContainer" class="p-2 border rounded bg-white" style="max-height: 220px; overflow-y: auto;"></div>
         </div>
       </div>
-
-      <div id="editSection" class="hidden">
-        <hr>
-        <div id="formFields" class="row g-2 g-md-3"></div>
-        <div class="mt-4">
-          <button onclick="saveChanges()" id="saveBtn" class="btn btn-save-custom w-100">Save</button>
-        </div>
-      </div>
-      
-      <div id="status" class="mt-3 text-center loading hidden">
-        <div class="spinner-border spinner-border-sm text-primary" role="status"></div> Processing...
-      </div>
-
-      <div style="display: flex; justify-content: flex-end; padding: 15px 15px 5px 0;">
-        <p style="margin: 0; font-size: 0.8rem; color: #888; font-style: italic;">
-          *Update Hybrid Mode 2026
-        </p>
-      </div>
-      <footer class="site-footer">
-        Organize by Gammaco (Thailand) Co.,Ltd.
-      </footer>
+      <button onclick="saveAdminSettings()" class="btn btn-warning btn-sm w-100 fw-bold">💾 บันทึกการตั้งค่าระบบ</button>
     </div>
 
-    <script>
-      const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJdI-Je0SZE0IcKE7S-95hquFmjdXOi5kahyhFODKOsJ0mSGBHwFnqc7QowDptpHq3/exec";
+    <!-- Login Section -->
+    <div id="loginSection" class="container-fluid px-0">
+      <div class="mb-3">
+        <label class="form-label">Your Email (อีเมลของคุณ)</label>
+        <input type="email" id="email" class="form-control form-control-lg" placeholder="example@mail.com">
+      </div>
+      <button onclick="login()" id="loginBtn" class="btn btn-primary w-100">Confirm</button>
+    </div>
 
-      let currentTeamId = "";
-      let fieldMapping = [];
+    <!-- Team Selection Section -->
+    <div id="selectSection" class="hidden container-fluid px-0">
+      <div class="mb-3">
+        <label class="form-label">Choose Team ID</label>
+        <select id="teamDropdown" class="form-select form-select-lg" onchange="loadTeamData()">
+          <option value="">-- Choose your Team ID --</option>
+        </select>
+      </div>
+    </div>
 
-      function showStatus(show) {
-        const statusEl = document.getElementById('status');
-        statusEl.classList.toggle('hidden', !show);
+    <!-- Data Edit Section -->
+    <div id="editSection" class="hidden">
+      <hr>
+      <div id="formFields" class="row g-2 g-md-3"></div>
+      <div class="mt-4">
+        <button onclick="saveChanges()" id="saveBtn" class="btn btn-save-custom w-100">Save</button>
+      </div>
+    </div>
+
+    <div id="status" class="mt-3 text-center loading hidden">
+      <div class="spinner-border spinner-border-sm text-primary" role="status"></div> Processing...
+    </div>
+
+    <footer class="app-footer">
+  Copyright © 2026  All Rights Reserved.
+</footer>
+  </div>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJdI-Je0SZE0IcKE7S-95hquFmjdXOi5kahyhFODKOsJ0mSGBHwFnqc7QowDptpHq3/exec"; 
+    
+    let currentTeamId = "";
+    let fieldMapping = [];
+    let loggedEmail = "";
+    let currentConfig = null;
+    let slideTimers = {};
+
+    let currentTeamAgeGroup = "";
+    let currentTeamMinYear = 2010;
+    let currentTeamMaxYear = 2020;
+    let adminRegionAgeGroups = {}; 
+    let currentControllerOptions = [];
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function showStatus(show) {
+      document.getElementById('status').classList.toggle('hidden', !show);
+    }
+
+    function formatThaiDateTime(dateStr) {
+      if (!dateStr) return "-";
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return dateStr;
+      const day = d.getDate();
+      const month = d.getMonth() + 1;
+      const yearBE = d.getFullYear() + 543;
+      const hours = String(d.getHours()).padStart(2, '0');
+      const minutes = String(d.getMinutes()).padStart(2, '0');
+      const seconds = String(d.getSeconds()).padStart(2, '0');
+      return `${day}/${month}/${yearBE} ${hours}:${minutes}:${seconds}`;
+    }
+
+    async function apiCall(action, payload = {}) {
+      const requestData = { action, ...payload };
+      
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        return new Promise((resolve, reject) => {
+          google.script.run
+            .withSuccessHandler(resolve)
+            .withFailureHandler((err) => reject(new Error(err.message || err)))[action](...Object.values(payload));
+        });
+      } else {
+        const response = await fetch(SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(requestData)
+        });
+        return await response.json();
+      }
+    }
+
+    function getBuddhistYearText(val) {
+      if (!val) return "";
+      let year = 0;
+      if (val.includes('/')) {
+        const parts = val.split('/');
+        if (parts.length === 3) year = parseInt(parts[2], 10);
+      } else if (val.includes('-')) {
+        const parts = val.split('-');
+        if (parts.length === 3) year = parseInt(parts[0], 10);
+      }
+      if (!year || isNaN(year)) return "";
+      if (year < 2400) year += 543; 
+      return `(พ.ศ. ${year})`;
+    }
+
+    function onDateInputChanged(index) {
+      const input = document.getElementById('input_' + index);
+      const beElem = document.getElementById('be_year_' + index);
+      if (input && beElem) beElem.innerText = getBuddhistYearText(input.value);
+    }
+
+    function showYearComparisonModal() {
+      const currentYearAD = new Date().getFullYear();
+      let tableRows = '';
+      
+      for (let y = currentYearAD; y >= currentYearAD - 50; y--) {
+        const be = y + 543;
+        const age = currentYearAD - y;
+        const isEligible = (y >= currentTeamMinYear && y <= currentTeamMaxYear);
+        const rowClass = isEligible ? 'table-success fw-bold' : '';
+        const badge = isEligible ? ' <span class="badge bg-success ms-1" style="font-size: 0.65rem;">🎯 เกณฑ์รับสมัคร</span>' : '';
+
+        tableRows += `
+          <tr class="${rowClass} year-row" data-search="${be} ${y} ${age}">
+            <td class="text-center">${be}</td>
+            <td class="text-center">${y}</td>
+            <td class="text-center">${age} ปี ${badge}</td>
+          </tr>`;
       }
 
-      function login() {
-        const email = document.getElementById('email').value;
-        if(!email) return alert("กรุณากรอกอีเมล");
-        showStatus(true);
+      const htmlContent = `
+        <div class="text-start mb-2">
+          <input type="text" id="yearSearchInput" class="form-control form-control-sm" 
+                 placeholder="🔍 พิมพ์ค้นหา เช่น 2555 หรือ 2012..." onkeyup="filterYearTable()">
+        </div>
+        ${currentTeamAgeGroup ? `
+          <div class="alert alert-info py-1 px-2 mb-2 text-start" style="font-size: 0.75rem;">
+            🎯 <strong>เกณฑ์ปัจจุบัน (${currentTeamAgeGroup}):</strong> ค.ศ. ${currentTeamMinYear} - ${currentTeamMaxYear} (พ.ศ. ${currentTeamMinYear + 543} - ${currentTeamMaxYear + 543})
+          </div>
+        ` : ''}
+        <div style="max-height: 380px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 6px;">
+          <table class="table table-sm table-striped table-hover mb-0 text-center" style="font-size: 0.85rem;" id="yearCompareTable">
+            <thead class="sticky-top" style="z-index: 1;">
+              <tr class="table-primary text-primary">
+                <th style="width: 35%;">พ.ศ.</th>
+                <th style="width: 35%;">ค.ศ.</th>
+                <th style="width: 30%;">อายุ (ปี)</th>
+              </tr>
+            </thead>
+            <tbody>${tableRows}</tbody>
+          </table>
+        </div>`;
 
-        fetch(`${WEB_APP_URL}?action=getTeams&email=${encodeURIComponent(email)}`)
-          .then(res => res.json())
-          .then(res => {
-            showStatus(false);
-            if(res.error) return alert(res.error);
-            
-            const select = document.getElementById('teamDropdown');
-            const labelText = res.isAdmin ? "-- เลือก Team ID ทั้งหมด (โหมดผู้ดูแลระบบ) --" : "-- เลือก Team ID --";
-            
-            select.innerHTML = `<option value="">${labelText}</option>`;
-            res.teams.forEach(id => { select.innerHTML += `<option value="${id}">${id}</option>`; });
-            
-            document.getElementById('loginSection').classList.add('hidden');
-            document.getElementById('selectSection').classList.remove('hidden');
-          })
-          .catch(err => { showStatus(false); alert("เกิดข้อผิดพลาด: " + err.message); });
+      Swal.fire({
+        title: '📅 ตารางเทียบ พ.ศ. - ค.ศ.',
+        html: htmlContent,
+        width: '480px',
+        showCloseButton: true,
+        confirmButtonText: 'ปิดหน้าต่าง',
+        confirmButtonColor: '#1a237e'
+      });
+    }
+
+    window.filterYearTable = function() {
+      const val = document.getElementById('yearSearchInput').value.trim().toLowerCase();
+      const rows = document.querySelectorAll('#yearCompareTable .year-row');
+      rows.forEach(r => {
+        const data = r.getAttribute('data-search').toLowerCase();
+        r.style.display = data.includes(val) ? '' : 'none';
+      });
+    };
+
+    function renderMediaComponent(targetContainerId, urls, mode) {
+      const container = document.getElementById(targetContainerId);
+      if (!container) return;
+
+      if (slideTimers[targetContainerId]) {
+        clearInterval(slideTimers[targetContainerId]);
+        delete slideTimers[targetContainerId];
       }
 
-      function loadTeamData() {
-        currentTeamId = document.getElementById('teamDropdown').value;
-        const container = document.getElementById('formFields');
-        const editSection = document.getElementById('editSection');
-        if (!currentTeamId) { editSection.classList.add('hidden'); container.innerHTML = ""; return; }
+      const validUrls = (Array.isArray(urls) && urls.length > 0) 
+        ? urls.filter(u => String(u).trim() !== '') 
+        : ['https://lh3.googleusercontent.com/d/1_xo4z-fSfB2uG2n1OOJKVABT9vW5fLQt'];
 
-        container.innerHTML = '<div class="text-center w-100 p-5"><div class="spinner-border text-primary"></div><br>Processing...</div>';
-        editSection.classList.remove('hidden');
+      const isLogo = (mode === 'LOGO');
+      const containerClass = isLogo ? 'logo-mode-container' : 'banner-mode-container';
+      const imgClass = isLogo ? 'logo-slide-img' : 'banner-slide-img';
 
-        fetch(`${WEB_APP_URL}?action=getTeamData&teamId=${encodeURIComponent(currentTeamId)}`)
-          .then(res => res.json())
-          .then(fields => {
-            if (!fields || fields.length === 0) {
-              container.innerHTML = '<div class="alert alert-danger w-100">❌ ไม่พบข้อมูลสำหรับทีมนี้</div>';
-              return;
-            }
-
-            fieldMapping = fields;
-            const fieldMap = {};
-            fields.forEach((f, index) => { fieldMap[f.label.trim()] = { ...f, originalIndex: index }; });
-
-            // ป้องกัน Error ด้วยการครอบ String() และตรวจสอบค่าว่างอย่างปลอดภัย
-            const categoryRegion = fieldMap["Category / Region"] ? String(fieldMap["Category / Region"].value).trim() : "";
-            const now = new Date();
-            let isTimeLocked = false;
-            let lockMessage = "";
-
-            if (categoryRegion.includes("ภาคใต้") && now >= new Date(2026, 4, 23, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคใต้)แล้ว"; }
-            else if (categoryRegion.includes("ภาคกลาง") && now >= new Date(2026, 5, 20, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคกลาง)แล้ว"; }
-            else if (categoryRegion.includes("กรุงเทพมหานคร") && now >= new Date(2026, 5, 6, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคกลาง (กรุงเทพมหานคร)) แล้ว"; }
-            else if (categoryRegion.includes("ภาคอีสาน") && now >= new Date(2026, 6, 4, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคอีสาน)แล้ว"; }
-            else if (categoryRegion.includes("ภาคเหนือ") && now >= new Date(2026, 6, 18, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบภูมิภาค (ภาคเหนือ)แล้ว"; }
-            else if (categoryRegion.includes("Robosports") && now >= new Date(2026, 8, 24, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบสนามพิเศษ (Robosports)แล้ว"; }
-            else if (categoryRegion.includes("Future Innovators") && now >= new Date(2026, 8, 24, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบสนามพิเศษ (Future Innovators)แล้ว"; }
-            else if (categoryRegion.includes("Future Engineers") && now >= new Date(2026, 8, 24, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบสนามพิเศษ (Future Engineers)แล้ว"; }
-            else if (categoryRegion.includes("Final") && now >= new Date(2026, 8, 12, 12, 0, 0)) { isTimeLocked = true; lockMessage = "ระบบปิดรับการแก้ไขสำหรับรอบชิงแชมป์ประเทศไทยแล้ว"; }
-
-            const statusValue = fieldMap["Status"] ? String(fieldMap["Status"].value).trim() : "";
-            const isLocked = (statusValue === "Cancel" || isTimeLocked);
-
-            const createInput = (label, isReadonly = true, colClass = "col-md-6", iconHtml = "") => {
-                const f = fieldMap[label];
-                if (!f) return ""; 
-                const finalReadonly = isLocked ? true : isReadonly;
-                const bgClass = finalReadonly ? 'bg-light text-muted' : '';
-                return `
-                  <div class="${colClass} col-12 mb-2">
-                    <label class="form-label">${iconHtml}${f.label}</label>
-                    <input type="text" class="form-control edit-input ${bgClass}" 
-                      data-index="${f.originalIndex}" value="${f.value}" ${finalReadonly ? 'readonly' : ''}>
-                  </div>`;
-            };
-
-            let statusClass = (statusValue === "Cancel") ? "status-cancel" : "status-registered";
-            let dotClass = (statusValue === "Cancel") ? "dot-red" : "dot-green-pulse";
-
-            let section1Html = `
-              <div class="col-12">
-                <div class="section-header d-flex justify-content-between align-items-center">
-                  <span>Team Info</span>
-                  <div class="badge-custom ${statusClass}" style="font-size: 0.75rem; padding: 2px 10px; border-radius: 5px; font-weight: 600; display: flex; align-items: center; gap: 5px; height: fit-content; border: 1px solid currentColor;">
-                    ${statusValue} <span class="${dotClass}" style="width: 8px; height: 8px;"></span>
-                  </div>
-                </div>
-              </div>`;
-
-            if (isLocked) {
-                section1Html += `
-                  <div class="col-12 mb-2">
-                    <div class="alert alert-warning" style="font-size: 0.85rem; padding: 10px;">
-                      <strong>⚠️ ไม่สามารถแก้ไขข้อมูลได้:</strong> ${lockMessage || "เนื่องจากทีมถูกยกเลิก"}
-                    </div>
-                  </div>`;
-            }
-
-            const controllerField = fieldMap["Controller"];
-            let controllerHtml = "";
-            if (controllerField) {
-                const finalReadonly = isLocked ? true : false;
-                const bgClass = finalReadonly ? 'bg-light text-muted' : '';
-                const disabledAttr = finalReadonly ? 'disabled' : '';
-                const currentVal = controllerField.value ? String(controllerField.value).trim() : "";
-                
-                controllerHtml = `
-                  <div class="col-md-6 col-12 mb-2">
-                    <label class="form-label"><i class="fas fa-robot me-2"></i>${controllerField.label}</label>
-                    <select class="form-select edit-input ${bgClass}" data-index="${controllerField.originalIndex}" ${disabledAttr}>
-                      <option value="${currentVal}">${currentVal || '-- เลือก Controller --'}</option>
-                      <option value="SPIKE Prime">SPIKE Prime</option>
-                      <option value="Robot Inventor">Robot Inventor</option>
-                      <option value="EV3">EV3</option>
-                      <option value="NXT">NXT</option>
-                      <option value="Other">Other / อื่นๆ</option>
-                    </select>
-                  </div>`;
-            }
-
-            section1Html += `
-              <div class="row w-100 m-0">
-                ${createInput("Event Name", true, "col-md-12", '<i class="fas fa-calendar-alt me-2"></i>')}
-                ${createInput("Category / Region", true, "col-md-5", '<i class="fas fa-globe-asia me-2"></i>')}
-                ${createInput("Province", true, "col-md-7", '<i class="fas fa-map-marker-alt me-2"></i>')}
-                ${createInput("Age Group", true, "col-md-6", '<i class="fas fa-users me-2"></i>')}
-                ${controllerHtml}
-                ${createInput("Team Name", false, "col-md-5", '<i class="fas fa-id-badge me-2"></i>')}
-                ${createInput("Institution", false, "col-md-7", '<i class="fas fa-school me-2"></i>')}
-              </div>`;
-
-            let section2Html = `<div class="col-12"><div class="section-header">Coach Info</div></div><div class="row w-100 m-0">`;
-            section2Html += createInput("Coach Name", false, "col-md-6", '<i class="fas fa-user-tie me-2"></i>');
-            section2Html += createInput("Email", false, "col-md-6", '<i class="fas fa-envelope me-2"></i>');
-            section2Html += createInput("Tel", false, "col-md-6", '<i class="fas fa-phone me-2"></i>');
-            section2Html += createInput("Line ID", false, "col-md-6", '<i class="fab fa-line me-2"></i>');
-            section2Html += `</div>`;
-
-            let section3Html = `
-              <div class="col-12">
-                <div class="section-header d-flex justify-content-between align-items-center">
-                  <span>Competitors</span>
-                  <a href="${WEB_APP_URL}?page=table" target="_blank" class="btn btn-sm btn-light"><i class="fas fa-calendar-alt"></i> Check BE - AD.</a>
-                </div>
-              </div><div class="row w-100 m-0">`;
-
-            fields.forEach((field, index) => {
-                const labelTrim = String(field.label).trim();
-                if (labelTrim.includes("Member") || labelTrim.includes("Date of birth")) {
-                    if (labelTrim.includes("Date of birth")) {
-                        let displayDateValue = "";
-                        // แก้ไขจุดนี้: แปลง field.value เป็น String ก่อนเรียกใช้ .includesเพื่อกัน Error
-                        if (field.value && String(field.value).includes("/")) {
-                          let parts = String(field.value).split("/");
-                          if (parts.length === 3) {
-                            let adYear = parseInt(parts[2]) - 543;
-                            displayDateValue = `${adYear}-${parts[1]}-${parts[0]}`;
-                          }
-                        }
-
-                        section3Html += `
-                          <div class="col-md-6 col-12 mb-2">
-                            <div class="dob-header-container d-flex justify-content-between">
-                              <label class="form-label mb-0">
-                                <i class="fas fa-birthday-cake me-2"></i>${field.label}
-                                <span id="be_label_${index}" class="be-display"></span>
-                              </label>
-                              ${!isLocked ? `
-                              <div class="form-check d-flex align-items-center">
-                                <input class="form-check-input me-1" type="checkbox" id="chk_${index}" onchange="toggleDate(${index})">
-                                <label class="form-check-label" for="chk_${index}" style="font-size: 0.75rem; cursor:pointer;">Edit</label>
-                              </div>` : ''}
-                            </div>
-                            <input type="text" class="form-control edit-input bg-light text-muted" id="input_${index}" data-index="${index}" value="${field.value}" data-raw="${displayDateValue}" oninput="updateBELabel(${index}, this.value)" readonly>
-                          </div>`;
-                    } else {
-                        section3Html += createInput(labelTrim, false, "col-md-6", '<i class="fas fa-user me-2"></i>');
-                    }
-                }
-            });
-            section3Html += `</div>`;
-
-            container.innerHTML = section1Html + section2Html + section3Html;
-            document.getElementById('saveBtn').classList.toggle('hidden', isLocked);
-
-          })
-          .catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
+      let html = `<div class="${containerClass}" id="box_${targetContainerId}">`;
+      if (validUrls.length === 1) {
+        html += `<img src="${validUrls[0]}" alt="Display Media" class="${imgClass}">`;
+      } else {
+        html += `<img id="slideImg_${targetContainerId}" src="${validUrls[0]}" alt="Display Media" class="${imgClass}">`;
+        html += `<div class="slide-dots">`;
+        validUrls.forEach((_, idx) => {
+          html += `<div class="slide-dot ${idx === 0 ? 'active' : ''}" onclick="switchSlide('${targetContainerId}', ${idx})"></div>`;
+        });
+        html += `</div>`;
       }
+      html += `</div>`;
+      container.innerHTML = html;
 
-      function updateBELabel(index, dateValue) {
-        const label = document.getElementById('be_label_' + index);
-        if (!label) return;
-        if (dateValue) {
-          const parts = dateValue.split("-"); 
-          if (parts.length === 3) {
-            const beYear = parseInt(parts[0]) + 543;
-            label.innerHTML = `(พ.ศ. ${beYear})`; 
-            return;
-          }
-        }
-        label.innerHTML = "";
+      if (validUrls.length > 1) {
+        let currentIdx = 0;
+        slideTimers[targetContainerId] = setInterval(() => {
+          currentIdx = (currentIdx + 1) % validUrls.length;
+          setSlideImage(targetContainerId, validUrls, currentIdx);
+        }, 3500);
       }
+    }
 
-      // แก้ไขจุดนี้: ยกเลิกการส่งค่า raw string ผ่านแอตทริบิวต์ เพื่อความปลอดภัยของโครงสร้าง HTML 
-      function toggleDate(index) {
-        const input = document.getElementById('input_' + index);
-        const chk = document.getElementById('chk_' + index);
-        const label = document.getElementById('be_label_' + index);
-        
-        // ดึงค่า Original Value ปลอดภัยจากตัวแปร global ตรง ๆ 
-        const originalValue = (fieldMapping[index] && fieldMapping[index].value) ? fieldMapping[index].value : "";
-        
-        if (chk.checked) {
-          const ageGroupField = fieldMapping.find(f => f.label.trim() === "Age Group");
-          const ageGroup = ageGroupField ? ageGroupField.value.trim() : "";
-          let minYearBE, maxYearBE;
+    function setSlideImage(targetContainerId, urls, idx) {
+      const img = document.getElementById(`slideImg_${targetContainerId}`);
+      if (!img) return;
+      img.style.opacity = '0.2';
+      setTimeout(() => { img.src = urls[idx]; img.style.opacity = '1'; }, 250);
 
-          switch(ageGroup) {
-            case "Elementary": minYearBE = 2557; maxYearBE = 2561; break;
-            case "Junior":     minYearBE = 2554; maxYearBE = 2558; break;
-            case "Senior":     minYearBE = 2550; maxYearBE = 2555; break;
-            case "Robosports": minYearBE = 2550; maxYearBE = 2558; break;
-            case "Future Engineers": minYearBE = 2547; maxYearBE = 2555; break;
-            default:           minYearBE = 2540; maxYearBE = 2570; 
-          }
+      const dots = document.querySelectorAll(`#box_${targetContainerId} .slide-dot`);
+      dots.forEach((dot, dIdx) => { dot.classList.toggle('active', dIdx === idx); });
+    }
 
-          const minDate = (minYearBE - 543) + "-01-01";
-          const maxDate = (maxYearBE - 543) + "-12-31";
+    window.switchSlide = function(targetContainerId, targetIdx) {
+      if (currentConfig && currentConfig.bannerUrls) setSlideImage(targetContainerId, currentConfig.bannerUrls, targetIdx);
+    };
 
-          input.type = "date";
-          input.min = minDate;
-          input.max = maxDate;
-          input.readOnly = false;
-          input.classList.remove('bg-light', 'text-muted');
+    function applyMediaToAllScreens(config) {
+      currentConfig = config;
+      const urls = (config.bannerUrls && config.bannerUrls.length > 0) ? config.bannerUrls : [config.bannerUrl];
+      const mode = config.imageMode || 'BANNER';
+      renderMediaComponent('outsideMediaContainer', urls, mode);
+      renderMediaComponent('mainMediaContainer', urls, mode);
+    }
 
-          let rawVal = input.getAttribute("data-raw");
-          if (rawVal && !isNaN(new Date(rawVal).getTime())) {
-            input.value = rawVal;
+    window.addEventListener('DOMContentLoaded', async () => {
+      const cachedConfig = localStorage.getItem('APP_CFG_CACHE');
+      const cachedStatus = localStorage.getItem('APP_STATUS_CACHE');
+      
+      if (cachedConfig) {
+        try {
+          const cfg = JSON.parse(cachedConfig);
+          applyMediaToAllScreens(cfg);
+          document.getElementById('noteTextDisplay').innerText = cfg.noteText || "";
+          
+          if (cachedStatus === "NOT_OPEN") {
+            document.getElementById('outsideTitle').innerText = "ระบบยังไม่เปิดใช้งาน";
+            document.getElementById('outsideSubtitle').innerHTML = `ท่านสามารถเข้าใช้งานได้ในวันที่: <strong>${formatThaiDateTime(cfg.openDate)}</strong>`;
+            document.getElementById('outsideSystemSection').classList.remove('hidden');
+          } else if (cachedStatus === "CLOSED") {
+            document.getElementById('outsideTitle').innerText = "ขออภัย.. สิ้นสุดการแก้ไขข้อมูลแล้ว";
+            document.getElementById('outsideSubtitle').innerHTML = `ระบบปิดให้แก้ไขแล้ว เมื่อวันที่: <strong>${formatThaiDateTime(cfg.closeDate)}</strong>`;
+            document.getElementById('outsideSystemSection').classList.remove('hidden');
           } else {
-            input.value = (minYearBE - 543) + "-01-01"; 
+            document.getElementById('mainContentCard').classList.remove('hidden');
           }
-          updateBELabel(index, input.value);
+        } catch(e) {}
+      } else {
+        document.getElementById('mainContentCard').classList.remove('hidden');
+      }
+
+      try {
+        const res = await apiCall("getInitialData");
+        if (res && res.config) {
+          localStorage.setItem('APP_CFG_CACHE', JSON.stringify(res.config));
+          localStorage.setItem('APP_STATUS_CACHE', res.systemStatus);
+
+          applyMediaToAllScreens(res.config);
+          document.getElementById('noteTextDisplay').innerText = res.config.noteText || "";
+
+          if (res.systemStatus === "NOT_OPEN") {
+            document.getElementById('outsideTitle').innerText = "ระบบยังไม่เปิดใช้งาน";
+            document.getElementById('outsideSubtitle').innerHTML = `ท่านสามารถเข้าใช้งานได้ในวันที่: <strong>${formatThaiDateTime(res.config.openDate)}</strong>`;
+            document.getElementById('outsideSystemSection').classList.remove('hidden');
+            document.getElementById('mainContentCard').classList.add('hidden');
+          } else if (res.systemStatus === "CLOSED") {
+            document.getElementById('outsideTitle').innerText = "ขออภัย.. สิ้นสุดการแก้ไขข้อมูลแล้ว";
+            document.getElementById('outsideSubtitle').innerHTML = `ระบบปิดให้แก้ไขแล้ว เมื่อวันที่: <strong>${formatThaiDateTime(res.config.closeDate)}</strong>`;
+            document.getElementById('outsideSystemSection').classList.remove('hidden');
+            document.getElementById('mainContentCard').classList.add('hidden');
+          } else {
+            document.getElementById('outsideSystemSection').classList.add('hidden');
+            document.getElementById('mainContentCard').classList.remove('hidden');
+          }
+        }
+      } catch (e) { 
+        console.error("Initialization Error:", e);
+      }
+    });
+
+    async function promptAdminLogin() {
+      const { value: email } = await Swal.fire({
+        title: '⚙️ ระบบผู้ดูแลระบบ',
+        input: 'email',
+        inputLabel: 'กรุณากรอกอีเมลผู้ดูแลระบบเพื่อเข้าสู่การตั้งค่า',
+        inputPlaceholder: 'example@email.com',
+        showCancelButton: true,
+        confirmButtonText: 'เข้าสู่ระบบ',
+        cancelButtonText: 'ยกเลิก'
+      });
+
+      if (email) {
+        document.getElementById('email').value = email;
+        await login(true);
+      }
+    }
+
+    let adminImageSlots = [];
+
+    function renderAdminImageSlots(urls) {
+      adminImageSlots = (urls && urls.length > 0) ? [...urls].slice(0, 3) : ['https://img2.pic.in.th/Banner-CARC-2026.jpg'];
+      refreshImageSlotsUI();
+    }
+
+    function refreshImageSlotsUI() {
+      const container = document.getElementById('imageSlotsContainer');
+      let html = '';
+      
+      adminImageSlots.forEach((url, i) => {
+        html += `
+          <div class="image-slot-card d-flex align-items-center gap-2">
+            <img src="${url || 'https://via.placeholder.com/50'}" id="preview_slot_${i}" class="image-preview-mini">
+            <div class="flex-grow-1">
+              <input type="text" class="form-control form-control-sm img-slot-url" id="url_slot_${i}" 
+                     placeholder="ระบุ URL รูปภาพที่ ${i+1}" value="${url}" oninput="updateSlotPreview(${i})">
+            </div>
+            <div>
+              <label class="btn btn-secondary btn-sm mb-0 py-1" style="font-size: 0.75rem; cursor: pointer;">
+                📁 อัปโหลด
+                <input type="file" accept="image/*" class="d-none" onchange="uploadImageFromDevice(event, ${i})">
+              </label>
+              ${adminImageSlots.length > 1 ? `
+                <button type="button" class="btn btn-outline-danger btn-sm py-1 px-2" onclick="removeImageSlot(${i})">🗑️</button>
+              ` : ''}
+            </div>
+          </div>`;
+      });
+
+      container.innerHTML = html;
+      document.getElementById('btnAddSlot').style.display = (adminImageSlots.length >= 3) ? 'none' : 'inline-block';
+    }
+
+    function addImageSlot() {
+      if (adminImageSlots.length < 3) { adminImageSlots.push(''); refreshImageSlotsUI(); }
+    }
+
+    function removeImageSlot(index) {
+      if (adminImageSlots.length > 1) { adminImageSlots.splice(index, 1); refreshImageSlotsUI(); }
+    }
+
+    function updateSlotPreview(index) {
+      const val = document.getElementById(`url_slot_${index}`).value.trim();
+      adminImageSlots[index] = val;
+      const preview = document.getElementById(`preview_slot_${index}`);
+      if (preview) preview.src = val || 'https://via.placeholder.com/50';
+    }
+
+    async function uploadImageFromDevice(e, index) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (file.size > 8 * 1024 * 1024) {
+        return Swal.fire({ icon: 'error', title: 'ขนาดไฟล์เกิน', text: 'กรุณาเลือกรูปภาพขนาดไม่เกิน 8MB' });
+      }
+
+      showStatus(true);
+      const reader = new FileReader();
+      reader.onload = async function(evt) {
+        try {
+          const res = await apiCall("uploadImageFile", { base64Data: evt.target.result, fileName: file.name });
+          showStatus(false);
+          if (res && res.url) {
+            adminImageSlots[index] = res.url;
+            refreshImageSlotsUI();
+            Swal.fire({ icon: 'success', title: 'อัปโหลดสำเร็จ', timer: 1200, showConfirmButton: false });
+          } else {
+            Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: res.error || 'ไม่สามารถอัปโหลดภาพได้' });
+          }
+        } catch(err) {
+          showStatus(false);
+          Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: err.message });
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function getCurrentlySelectedCatRegions() {
+      const allChk = document.getElementById('chk_reg_all');
+      if (allChk && allChk.checked) return ['ALL'];
+      const checkedItems = document.querySelectorAll('.item-reg-chk:checked');
+      const list = [];
+      checkedItems.forEach(c => list.push(c.value));
+      return list.length === 0 ? ['ALL'] : list;
+    }
+
+    function getCurrentAgeGroupRulesFromUI() {
+      const rules = { ...(currentConfig && currentConfig.ageGroupYearRules ? currentConfig.ageGroupYearRules : {}) };
+      const rows = document.querySelectorAll('.agegroup-rule-row');
+      rows.forEach(row => {
+        const group = row.getAttribute('data-group');
+        const minInput = row.querySelector('.group-min-year');
+        const maxInput = row.querySelector('.group-max-year');
+        if (group && minInput && maxInput) {
+          rules[group] = { minYear: parseInt(minInput.value, 10) || 2010, maxYear: parseInt(maxInput.value, 10) || 2015 };
+        }
+      });
+      return rules;
+    }
+
+    function updateAgeGroupRulesBySelectedRegions() {
+      const selectedRegions = getCurrentlySelectedCatRegions();
+      const currentRules = getCurrentAgeGroupRulesFromUI();
+      
+      let filteredRegionGroups = {};
+      if (selectedRegions.includes('ALL')) {
+        filteredRegionGroups = adminRegionAgeGroups;
+      } else {
+        selectedRegions.forEach(reg => {
+          if (adminRegionAgeGroups[reg]) filteredRegionGroups[reg] = adminRegionAgeGroups[reg];
+        });
+      }
+      renderAgeGroupRulesUI(filteredRegionGroups, currentRules);
+    }
+
+    function renderAgeGroupRulesUI(regionGroups, existingRules = {}) {
+      const container = document.getElementById('cfgAgeGroupRulesContainer');
+      if (!regionGroups || Object.keys(regionGroups).length === 0) {
+        container.innerHTML = '<div class="text-muted p-2">ไม่พบ Age Group สำหรับรายการ Category/Region ที่เลือก</div>';
+        return;
+      }
+
+      let html = '';
+      for (const regName in regionGroups) {
+        const groups = regionGroups[regName];
+        if (groups && groups.length > 0) {
+          html += `<div class="fw-bold text-primary mb-1 mt-2 border-bottom pb-1" style="font-size: 0.85rem;">📍 Category / Region: ${regName}</div>`;
+          groups.forEach(group => {
+            const rule = existingRules[group] || { minYear: 2010, maxYear: 2015 };
+            html += `
+              <div class="d-flex align-items-center gap-2 mb-2 p-1 bg-light rounded agegroup-rule-row" data-group="${group}">
+                <div style="width: 140px; font-weight: 600; font-size: 0.85rem;" class="text-truncate" title="${group}">🎯 ${group}</div>
+                <div class="d-flex align-items-center gap-1">
+                  <span style="font-size: 0.75rem;">ปีต่ำสุด:</span>
+                  <input type="number" class="form-control form-control-sm group-min-year" style="width: 85px;" 
+                         value="${rule.minYear}" placeholder="เช่น 2010" oninput="updateAgeGroupHelper(this)">
+                </div>
+                <div class="d-flex align-items-center gap-1">
+                  <span style="font-size: 0.75rem;">ปีสูงสุด:</span>
+                  <input type="number" class="form-control form-control-sm group-max-year" style="width: 85px;" 
+                         value="${rule.maxYear}" placeholder="เช่น 2015" oninput="updateAgeGroupHelper(this)">
+                </div>
+                <div class="group-helper text-muted ms-1" style="font-size: 0.75rem;">(พ.ศ. ${rule.minYear + 543} - ${rule.maxYear + 543})</div>
+              </div>`;
+          });
+        }
+      }
+      container.innerHTML = html;
+    }
+
+    function updateAgeGroupHelper(inputElem) {
+      const row = inputElem.closest('.agegroup-rule-row');
+      let min = parseInt(row.querySelector('.group-min-year').value, 10);
+      let max = parseInt(row.querySelector('.group-max-year').value, 10);
+      if (min > 2400) min -= 543;
+      if (max > 2400) max -= 543;
+      const helper = row.querySelector('.group-helper');
+      if (min && max) helper.innerText = `(พ.ศ. ${min + 543} - ${max + 543})`;
+    }
+
+    function renderCategoryRegionCheckboxes(allRegions, activeSetting) {
+      const container = document.getElementById('cfgActiveCategoryRegionContainer');
+      let activeList = [];
+      try {
+        if (activeSetting && activeSetting !== 'ALL') activeList = typeof activeSetting === 'string' ? JSON.parse(activeSetting) : activeSetting;
+      } catch(e) { activeList = [activeSetting]; }
+
+      const isAll = (!activeSetting || activeSetting === 'ALL' || (Array.isArray(activeList) && activeList.includes('ALL')));
+
+      let html = `
+        <div class="form-check mb-1">
+          <input class="form-check-input" type="checkbox" value="ALL" id="chk_reg_all" ${isAll ? 'checked' : ''} onchange="toggleAllRegions(this)">
+          <label class="form-check-label fw-bold" for="chk_reg_all">-- แสดงและเปิดให้แก้ไขทุก Category/Region (ALL) --</label>
+        </div><hr class="my-1">`;
+
+      if (allRegions && allRegions.length > 0) {
+        allRegions.forEach((reg, i) => {
+          const checked = !isAll && activeList.includes(reg) ? 'checked' : '';
+          html += `
+            <div class="form-check">
+              <input class="form-check-input item-reg-chk" type="checkbox" value="${reg}" id="chk_reg_${i}" ${checked} onchange="onItemRegionChange()">
+              <label class="form-check-label" for="chk_reg_${i}">${reg}</label>
+            </div>`;
+        });
+      }
+      container.innerHTML = html;
+    }
+
+    function toggleAllRegions(allChk) {
+      const itemChks = document.querySelectorAll('.item-reg-chk');
+      if (allChk.checked) itemChks.forEach(c => c.checked = false);
+      updateAgeGroupRulesBySelectedRegions();
+    }
+
+    function onItemRegionChange() {
+      const itemChks = document.querySelectorAll('.item-reg-chk:checked');
+      const allChk = document.getElementById('chk_reg_all');
+      if (itemChks.length > 0 && allChk) allChk.checked = false;
+      else if (itemChks.length === 0 && allChk) allChk.checked = true;
+      updateAgeGroupRulesBySelectedRegions();
+    }
+
+    async function login(fromGear = false) {
+      loggedEmail = document.getElementById('email').value.trim();
+      if (!loggedEmail) return alert("กรุณากรอกอีเมล");
+      
+      showStatus(true);
+      try {
+        const res = await apiCall("getTeamsByEmail", { email: loggedEmail });
+        showStatus(false);
+        
+        if (res.error) return Swal.fire({ icon: 'error', title: 'ข้อผิดพลาด', text: res.error });
+
+        if (fromGear && !res.isAdmin) return Swal.fire({ icon: 'error', title: 'ไม่อนุญาต', text: 'อีเมลนี้ไม่มีสิทธิ์เข้าถึงส่วนผู้ดูแลระบบ' });
+
+        if (res.isAdmin) {
+          document.getElementById('outsideSystemSection').classList.add('hidden');
+          document.getElementById('mainContentCard').classList.remove('hidden');
+          document.getElementById('adminPanelSection').classList.remove('hidden');
+          
+          document.getElementById('cfgOpenDate').value = res.config.openDate || "";
+          document.getElementById('cfgCloseDate').value = res.config.closeDate || "";
+          document.getElementById('cfgNoteText').value = res.config.noteText || "";
+          
+          if (res.config.imageMode === 'LOGO') document.getElementById('modeLogo').checked = true;
+          else document.getElementById('modeBanner').checked = true;
+          
+          const urls = (res.config.bannerUrls && res.config.bannerUrls.length > 0) ? res.config.bannerUrls : [res.config.bannerUrl];
+          renderAdminImageSlots(urls);
+          applyMediaToAllScreens(res.config);
+
+          renderCategoryRegionCheckboxes(res.allCategoryRegions, res.config.activeCategoryRegion);
+
+          adminRegionAgeGroups = res.regionAgeGroups || {};
+          currentConfig = res.config;
+          updateAgeGroupRulesBySelectedRegions();
         } else {
-          input.type = "text";
-          input.value = originalValue;
-          input.readOnly = true;
-          input.classList.add('bg-light', 'text-muted');
-          if (label) label.innerHTML = ""; 
+          document.getElementById('adminPanelSection').classList.add('hidden');
         }
+        
+        const select = document.getElementById('teamDropdown');
+        select.innerHTML = '<option value="">-- เลือก Team ID --</option>';
+        res.teams.forEach(id => { select.innerHTML += `<option value="${id}">${id}</option>`; });
+        
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('selectSection').classList.remove('hidden');
+      } catch (err) {
+        showStatus(false);
+        Swal.fire({ icon: 'error', title: 'การเชื่อมต่อขัดข้อง', text: 'ไม่สามารถติดต่อ Web App ได้: ' + err.message });
+      }
+    }
+
+    async function saveAdminSettings() {
+      const openDate = document.getElementById('cfgOpenDate').value;
+      const closeDate = document.getElementById('cfgCloseDate').value;
+      const noteText = document.getElementById('cfgNoteText').value;
+      const imageMode = document.querySelector('input[name="imageMode"]:checked').value;
+
+      const urlInputs = document.querySelectorAll('.img-slot-url');
+      const bannerUrls = [];
+      urlInputs.forEach(input => { const v = input.value.trim(); if (v) bannerUrls.push(v); });
+      if (bannerUrls.length === 0) bannerUrls.push('https://img2.pic.in.th/Banner-CARC-2026.jpg');
+
+      const ageGroupYearRules = getCurrentAgeGroupRulesFromUI();
+      const rows = document.querySelectorAll('.agegroup-rule-row');
+      rows.forEach(row => {
+        const group = row.getAttribute('data-group');
+        let minYear = parseInt(row.querySelector('.group-min-year').value, 10);
+        let maxYear = parseInt(row.querySelector('.group-max-year').value, 10);
+        if (minYear > 2400) minYear -= 543;
+        if (maxYear > 2400) maxYear -= 543;
+        if (minYear && maxYear) {
+          if (minYear > maxYear) { const temp = minYear; minYear = maxYear; maxYear = temp; }
+          ageGroupYearRules[group] = { minYear, maxYear };
+        }
+      });
+
+      const selectedRegions = [];
+      const allChk = document.getElementById('chk_reg_all');
+      if (allChk && allChk.checked) selectedRegions.push("ALL");
+      else {
+        const checkedItems = document.querySelectorAll('.item-reg-chk:checked');
+        checkedItems.forEach(c => selectedRegions.push(c.value));
       }
 
-      function saveChanges() {
-        const inputs = document.querySelectorAll('.edit-input');
-        const updatedData = [];
-        const ageGroupField = fieldMapping.find(f => f.label.trim() === "Age Group");
-        const ageGroup = ageGroupField ? ageGroupField.value.trim() : "";
-        let errorMessage = "";
+      showStatus(true);
+      try {
+        const newConfig = { 
+          openDate, closeDate, noteText, imageMode,
+          bannerUrls: bannerUrls.slice(0, 3), bannerUrl: bannerUrls[0],
+          activeCategoryRegion: selectedRegions.length === 0 ? "ALL" : selectedRegions,
+          ageGroupYearRules: ageGroupYearRules
+        };
 
-        inputs.forEach(input => {
-          if (input.type === "date" && input.value !== "") {
-            const selectedDate = new Date(input.value);
-            const yearBE = selectedDate.getFullYear() + 543; 
+        const res = await apiCall("saveConfig", { config: newConfig });
+        showStatus(false);
+        document.getElementById('noteTextDisplay').innerText = noteText;
+        applyMediaToAllScreens(newConfig);
 
-            if (ageGroup === "Elementary" && (yearBE < 2557 || yearBE > 2561)) errorMessage = "Age Group: Elementary ต้องเกิดระหว่าง พ.ศ. 2557 - 2561";
-            else if (ageGroup === "Junior" && (yearBE < 2554 || yearBE > 2558)) errorMessage = "Age Group: Junior ต้องเกิดระหว่าง พ.ศ. 2554 - 2558";
-            else if (ageGroup === "Senior" && (yearBE < 2550 || yearBE > 2555)) errorMessage = "Age Group: Senior ต้องเกิดระหว่าง พ.ศ. 2550 - 2555";
-            else if (ageGroup === "Robosports" && (yearBE < 2550 || yearBE > 2558)) errorMessage = "Age Group: Robosports ต้องเกิดระหว่าง พ.ศ. 2550 - 2558";
-            else if (ageGroup === "Future Engineers" && (yearBE < 2547 || yearBE > 2555)) errorMessage = "Age Group: Future Engineers ต้องเกิดระหว่าง พ.ศ. 2547 - 2555";
+        Swal.fire({ icon: 'success', title: 'เรียบร้อย', text: res });
+        await login(true);
+      } catch (err) {
+        showStatus(false);
+        alert("บันทึกการตั้งค่าล้มเหลว: " + err.message);
+      }
+    }
+
+    // ฟังก์ชันค้นหาช่องจากชื่อคีย์เวิร์ด หรือลำดับคอลัมน์
+    function findField(fields, colNum, keywords) {
+      if (!fields || fields.length === 0) return null;
+      if (keywords && keywords.length > 0) {
+        for (const f of fields) {
+          const l = String(f.label || '').trim().toLowerCase();
+          if (keywords.some(k => l === k.toLowerCase() || l.includes(k.toLowerCase()))) {
+            return f;
+          }
+        }
+      }
+      const byCol = fields.find(f => f.colIndex === colNum);
+      if (byCol) return byCol;
+      if (fields.length >= colNum) return fields[colNum - 1];
+      return null;
+    }
+
+    async function loadTeamData() {
+      currentTeamId = document.getElementById('teamDropdown').value;
+      const container = document.getElementById('formFields');
+      const editSection = document.getElementById('editSection');
+      
+      if (!currentTeamId) {
+        editSection.classList.add('hidden');
+        container.innerHTML = "";
+        return;
+      }
+
+      container.innerHTML = '<div class="text-center w-100 p-5"><div class="spinner-border text-primary"></div><br>Processing...</div>';
+      editSection.classList.remove('hidden');
+
+      try {
+        const resData = await apiCall("getTeamData", { teamId: currentTeamId });
+        
+        if (!resData) {
+          container.innerHTML = '<div class="alert alert-danger w-100">❌ ไม่พบข้อมูลสำหรับทีมนี้</div>';
+          return;
+        }
+        if (resData.error) {
+          container.innerHTML = `<div class="alert alert-danger w-100">❌ ${resData.error}</div>`;
+          return;
+        }
+
+        let fields = [];
+        currentControllerOptions = [];
+
+        if (Array.isArray(resData)) {
+          fields = resData;
+        } else if (resData.fields && Array.isArray(resData.fields)) {
+          fields = resData.fields;
+          currentControllerOptions = resData.controllerOptions || [];
+        } else {
+          container.innerHTML = '<div class="alert alert-danger w-100">❌ รูปแบบข้อมูลที่ได้รับไม่ถูกต้อง</div>';
+          return;
+        }
+
+        if (fields.length === 0) {
+          container.innerHTML = '<div class="alert alert-danger w-100">❌ ไม่พบข้อมูลคอลัมน์ของทีมนี้</div>';
+          return;
+        }
+
+        fieldMapping = fields;
+
+        // Col U: Status (Col 21)
+        const statusField = findField(fields, 21, ["status", "สถานะ"]);
+        const statusValue = statusField ? statusField.value.trim() : "Registered";
+        const isCancel = (statusValue.toLowerCase() === "cancel" || statusValue === "ยกเลิก");
+
+        // Col E: Age Group (Col 5)
+        const ageGroupField = findField(fields, 5, ["age group", "agegroup"]);
+        currentTeamAgeGroup = ageGroupField ? ageGroupField.value.trim() : "";
+        const rules = (currentConfig && currentConfig.ageGroupYearRules) ? currentConfig.ageGroupYearRules : {};
+        if (rules[currentTeamAgeGroup]) {
+          currentTeamMinYear = rules[currentTeamAgeGroup].minYear;
+          currentTeamMaxYear = rules[currentTeamAgeGroup].maxYear;
+        } else {
+          currentTeamMinYear = 2010;
+          currentTeamMaxYear = 2020;
+        }
+
+        const createSmartInput = (colNum, keywords, isReadonly = true, colClass = "col-md-6") => {
+          const f = findField(fields, colNum, keywords);
+          if (!f) return "";
+          const finalReadonly = isCancel ? true : isReadonly;
+          const bgClass = finalReadonly ? 'bg-light text-muted' : '';
+          return `
+            <div class="${colClass} col-12 mb-2">
+              <label class="form-label">${f.label}</label>
+              <input type="text" class="form-control edit-input ${bgClass}" 
+                data-colindex="${f.colIndex}" value="${escapeHtml(f.value)}" ${finalReadonly ? 'readonly' : ''}>
+            </div>`;
+        };
+
+        // 1. Col Y: Team Rookies (Col 25) - ดึงค่าเดิมมาแสดงในตัวเลือก Yes / No
+        const createRookiesInput = (colNum, colClass = "col-md-6") => {
+          const f = findField(fields, colNum, ["rookie", "team rookie", "team rookies"]);
+          if (!f) return "";
+          const rawVal = String(f.value || '').trim();
+          const valLow = rawVal.toLowerCase();
+          const isYes = (valLow === 'yes' || valLow === 'y' || valLow === 'ใช่');
+          const isNo = (valLow === 'no' || valLow === 'n' || valLow === 'ไม่ใช่');
+
+          let optionsHtml = `<option value="">-- เลือก Yes / No --</option>`;
+          optionsHtml += `<option value="Yes" ${isYes ? 'selected' : ''}>Yes</option>`;
+          optionsHtml += `<option value="No" ${isNo ? 'selected' : ''}>No</option>`;
+          if (rawVal && !isYes && !isNo) {
+            optionsHtml += `<option value="${escapeHtml(rawVal)}" selected>${escapeHtml(rawVal)}</option>`;
+          }
+
+          return `
+            <div class="${colClass} col-12 mb-2">
+              <label class="form-label">${f.label}</label>
+              <select class="form-select edit-input ${isCancel ? 'bg-light text-muted' : ''}" 
+                data-colindex="${f.colIndex}" ${isCancel ? 'disabled' : ''}>
+                ${optionsHtml}
+              </select>
+            </div>`;
+        };
+
+        // 2. Col Z: Controller (Col 26) - ดึงค่าเดิมมาแสดงในช่อง พร้อมมี Datalist ให้เลือก
+        const createControllerInput = (colNum, colClass = "col-md-6") => {
+          const f = findField(fields, colNum, ["controller", "อุปกรณ์ควบคุม"]);
+          if (!f) return "";
+          const rawVal = String(f.value || '').trim();
+          const allOptionsSet = new Set(currentControllerOptions);
+          if (rawVal) allOptionsSet.add(rawVal);
+          const optionsHtml = Array.from(allOptionsSet).map(opt => `<option value="${escapeHtml(opt)}">`).join('');
+
+          return `
+            <div class="${colClass} col-12 mb-2">
+              <label class="form-label">${f.label} <small class="text-muted">(เลือกจากรายการ หรือพิมพ์ใหม่)</small></label>
+              <input type="text" list="controllerList" class="form-control edit-input ${isCancel ? 'bg-light text-muted' : ''}" 
+                data-colindex="${f.colIndex}" value="${escapeHtml(rawVal)}" placeholder="พิมพ์หรือคลิกเลือก..." ${isCancel ? 'readonly' : ''}>
+              <datalist id="controllerList">
+                ${optionsHtml}
+              </datalist>
+            </div>`;
+        };
+
+        let statusClass = isCancel ? "status-cancel" : "status-registered";
+        let dotClass = isCancel ? "dot-red" : "dot-green-pulse";
+
+        let html = `
+          <div class="col-12"><div class="section-header">Team Info</div></div>
+          <div class="col-12">
+            <div class="status-wrapper">
+              <div class="badge-custom ${statusClass}">${statusValue} <span class="${dotClass}"></span></div>
+              ${isCancel ? `<div class="text-danger mt-2" style="font-size: 0.8rem;"><strong>* ไม่สามารถแก้ไขได้ เนื่องจากทีมถูกยกเลิก</strong></div>` : ''}
+            </div>
+          </div>
+          ${createSmartInput(3, ["category / region", "region"], true, "col-md-6")} 
+          ${createSmartInput(4, ["team id", "teamid"], true, "col-md-6")}
+          ${createSmartInput(5, ["age group", "agegroup"], true, "col-md-6")}
+          ${createSmartInput(8, ["province", "จังหวัด"], true, "col-md-6")}
+          ${createSmartInput(6, ["team name", "ชื่อทีม"], false, "col-md-6")}
+          ${createSmartInput(7, ["institution", "school", "สถาบัน"], false, "col-md-6")}
+          
+          <div class="col-12"><div class="section-header">Coach Info</div></div>
+          ${createSmartInput(9, ["coach name", "coach"], false, "col-md-6")}
+          ${createSmartInput(10, ["email", "อีเมล"], false, "col-md-6")}
+          ${createSmartInput(11, ["tel", "phone", "เบอร์โทร"], false, "col-md-6")}
+          ${createSmartInput(12, ["line id", "line", "ไลน์"], false, "col-md-6")}
+          
+          <div class="col-12">
+            <div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+              <span>Competitors</span>
+              <button type="button" class="btn-year-compare shadow-sm" onclick="showYearComparisonModal()">
+                📅 ตารางเทียบ พ.ศ. - ค.ศ.
+              </button>
+            </div>
+          </div>`;
+
+        // Col N, O, P, Q, R, S: Competitors (No.1, 2, 3) & Date of birth
+        const competitorCols = [
+          { nameCol: 14, dobCol: 15, nameKey: ["member (no.1)", "member 1"] },
+          { nameCol: 16, dobCol: 17, nameKey: ["member (no.2)", "member 2"] },
+          { nameCol: 18, dobCol: 19, nameKey: ["member (no.3)", "member 3"] }
+        ];
+
+        competitorCols.forEach(comp => {
+          const nameField = findField(fields, comp.nameCol, comp.nameKey);
+          const dobField = findField(fields, comp.dobCol, ["date of birth", "วันเกิด"]);
+
+          if (nameField) {
+            const bgClass = isCancel ? 'bg-light text-muted' : '';
+            html += `
+              <div class="col-md-6 col-12 mb-2">
+                <label class="form-label">${nameField.label}</label>
+                <input type="text" class="form-control edit-input ${bgClass}" 
+                  data-colindex="${nameField.colIndex}" value="${escapeHtml(nameField.value)}" ${isCancel ? 'readonly' : ''}>
+              </div>`;
+          }
+
+          if (dobField) {
+            const beText = getBuddhistYearText(dobField.value);
+            const dIdx = dobField.colIndex;
+            html += `
+              <div class="col-md-6 col-12 mb-2">
+                <div class="dob-header-container">
+                  <label class="form-label mb-0">
+                    ${dobField.label} 
+                    <span id="be_year_${dIdx}" class="text-primary fw-bold" style="font-size: 0.85rem;">${beText}</span>
+                  </label>
+                  ${!isCancel ? `
+                  <div class="form-check d-flex align-items-center">
+                    <input class="form-check-input me-1" type="checkbox" id="chk_${dIdx}" onchange="toggleDate(${dIdx}, '${dobField.value}')">
+                    <label class="form-check-label" for="chk_${dIdx}" style="font-size: 0.75rem; cursor:pointer;">Edit</label>
+                  </div>` : ''}
+                </div>
+                <input type="text" class="form-control edit-input bg-light text-muted" 
+                  id="input_${dIdx}" data-colindex="${dIdx}" value="${dobField.value}" readonly 
+                  oninput="onDateInputChanged(${dIdx})" onchange="onDateInputChanged(${dIdx})">
+                <div class="text-muted mt-1" style="font-size: 0.72rem;">
+                  * เกณฑ์ปีเกิด (${currentTeamAgeGroup || 'ทั่วไป'}): ค.ศ. ${currentTeamMinYear} - ${currentTeamMaxYear} (พ.ศ. ${currentTeamMinYear+543} - ${currentTeamMaxYear+543})
+                </div>
+              </div>`;
           }
         });
 
-        if (errorMessage !== "") {
-          return Swal.fire({ icon: 'error', title: 'ช่วงปีเกิดไม่ถูกต้อง', text: errorMessage });
-        }
+        // ส่วน Team Rookies (Col Y) & Controller (Col Z)
+        html += `<div class="col-12"><div class="section-header">Equipment & Team Options</div></div>`;
+        html += createRookiesInput(25, "col-md-6");
+        html += createControllerInput(26, "col-md-6");
 
-        Swal.fire({
-          title: 'ยืนยันการแก้ไข?',
-          text: "บันทึกการเปลี่ยนแปลงใช่หรือไม่?",
-          icon: 'question',
-          showCancelButton: true,
-          confirmButtonColor: '#1a237e',
-          confirmButtonText: 'บันทึก',
-          cancelButtonText: 'ยกเลิก',
-          showLoaderOnConfirm: true,
-          preConfirm: () => {
-            inputs.forEach(input => {
-              const idx = input.getAttribute('data-index');
-              if (idx !== null && fieldMapping[idx]) {
-                let val = input.value;
-                
-                if (input.type === "date" && val !== "") {
-                  let parts = val.split("-"); 
-                  if (parts.length === 3) {
-                    let beYear = parseInt(parts[0]) + 543;
-                    val = `${parts[2]}/${parts[1]}/${beYear}`;
-                  }
+        // 3. ✅ ไม่แสดงส่วน Additional Info อีกต่อไป
+
+        container.innerHTML = html;
+        document.getElementById('saveBtn').classList.toggle('hidden', isCancel);
+      } catch (err) {
+        container.innerHTML = `<div class="alert alert-danger">เกิดข้อผิดพลาด: ${err.message}</div>`;
+      }
+    }
+
+    function toggleDate(dIdx, originalValue) {
+      const input = document.getElementById('input_' + dIdx);
+      const chk = document.getElementById('chk_' + dIdx);
+      const beElem = document.getElementById('be_year_' + dIdx);
+
+      if (chk.checked) {
+        input.type = "date";
+        input.min = `${currentTeamMinYear}-01-01`; 
+        input.max = `${currentTeamMaxYear}-12-31`;
+        
+        let parts = input.value.split('/');
+        if (parts.length === 3) {
+          let year = parseInt(parts[2], 10);
+          if (year > 2500) year -= 543;
+          let month = parts[1].padStart(2, '0');
+          let day = parts[0].padStart(2, '0');
+          input.value = `${year}-${month}-${day}`;
+        }
+        input.readOnly = false;
+        input.classList.remove('bg-light', 'text-muted');
+        onDateInputChanged(dIdx);
+      } else {
+        input.type = "text";
+        input.value = originalValue;
+        input.readOnly = true;
+        input.classList.add('bg-light', 'text-muted');
+        if (beElem) beElem.innerText = getBuddhistYearText(originalValue);
+      }
+    }
+
+    function saveChanges() {
+      const inputs = document.querySelectorAll('.edit-input');
+      const updatedData = [];
+      let dateValid = true;
+
+      inputs.forEach(input => {
+        if (input.type === "date" && input.value !== "") {
+          const year = parseInt(input.value.split('-')[0], 10);
+          if (year < currentTeamMinYear || year > currentTeamMaxYear) {
+            dateValid = false;
+          }
+        }
+      });
+
+      if (!dateValid) {
+        return Swal.fire({ 
+          icon: 'error', 
+          title: 'ปีเกิดไม่อยู่ในเกณฑ์ที่กำหนด', 
+          text: `รุ่น ${currentTeamAgeGroup}: ต้องเป็นปีเกิดระหว่าง ค.ศ. ${currentTeamMinYear} - ${currentTeamMaxYear} (พ.ศ. ${currentTeamMinYear+543} - ${currentTeamMaxYear+543}) เท่านั้น` 
+        });
+      }
+
+      Swal.fire({
+        title: 'ยืนยันการแก้ไข?',
+        text: "ข้อมูลจะถูกบันทึกเป็นปี ค.ศ. ตามระบบฐานข้อมูล",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#1a237e',
+        confirmButtonText: 'บันทึก',
+        cancelButtonText: 'ยกเลิก',
+        showLoaderOnConfirm: true,
+        preConfirm: async () => {
+          inputs.forEach(input => {
+            let colIdx = input.getAttribute('data-colindex');
+            if (colIdx) {
+              let finalValue = input.value;
+
+              if (input.type === "date" && finalValue !== "") {
+                let dateParts = finalValue.split('-');
+                if (dateParts.length === 3) {
+                  let yearAD = dateParts[0];
+                  let month = dateParts[1];
+                  let day = dateParts[2];
+                  finalValue = `${day}/${month}/${yearAD}`;
                 }
-
-                updatedData.push({ 
-                  colIndex: fieldMapping[idx].colIndex, 
-                  value: val 
-                });
               }
-            });
-
-            const isGitHub = window.location.hostname.includes("github.io") || !window.location.hostname.includes("script.google.com");
-            
-            if (isGitHub) {
-              return fetch(WEB_APP_URL, {
-                method: 'POST',
-                body: JSON.stringify({
-                  action: "update",
-                  teamId: currentTeamId,
-                  updatedValues: updatedData
-                })
-              })
-              .then(response => response.json())
-              .then(data => {
-                if (!data.success) throw new Error(data.error);
-                return data;
-              })
-              .catch(error => Swal.showValidationMessage(`Request failed: ${error}`));
-            } else {
-              return new Promise((resolve, reject) => {
-                google.script.run
-                  .withSuccessHandler(msg => resolve({ success: true, message: msg }))
-                  .withFailureHandler(err => reject(err))
-                  .updateData(currentTeamId, JSON.stringify(updatedData));
-              }).catch(error => Swal.showValidationMessage(`Request failed: ${error.message || error}`));
+              
+              updatedData.push({ 
+                colIndex: parseInt(colIdx, 10), 
+                value: finalValue 
+              });
             }
-          }
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire({ icon: 'success', title: 'สำเร็จ!', text: 'อัปเดตเรียบร้อยแล้ว' })
-            .then(() => { location.reload(); });
-          }
-        });
-      }
-    </script>
-  </body>
+          });
+
+          return await apiCall("updateData", { 
+            teamId: currentTeamId, 
+            updatedValues: updatedData,
+            email: loggedEmail
+          });
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const resText = typeof result.value === 'string' ? result.value : (result.value || "");
+          const isSuccess = resText.includes("✅");
+
+          Swal.fire({ 
+            icon: isSuccess ? 'success' : 'error', 
+            title: isSuccess ? 'สำเร็จ!' : 'ข้อผิดพลาด', 
+            text: resText 
+          }).then(() => {
+            if (isSuccess) loadTeamData(); 
+          });
+        }
+      });
+    }
+  </script>
+</body>
 </html>
